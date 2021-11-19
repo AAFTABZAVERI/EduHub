@@ -1,26 +1,11 @@
-'''
-IMP How to setup 
-
--> Make sure you have python(3.8 or above) installed in your system (and python file path is also working)
--> Then clone This repo
--> Then Open this repo in VScode and press 'Ctrl + j' and type 'pip install virtualenv'
--> Navigate to your repo 'cd eduhub-be'
--> There type 'virtual eduhubenv'
--> Then type '.\eduhubenv\Scripts\activate'
--> If you get any execution policy error then open powershell and type 'Set-ExecutionPolicy unrestricted -scope CurrentUser'
--> Then type this '.\eduhubenv\Scripts\activate' and it should not show any error
--> Now type 'pip install -r requirement.txt'
--> After all files are downloaded type 'python .\server.py'
-
-
--> If everything worked completely fine then "Great you are a genius !!!" 
--> IF you are stuck call 7777905606
-'''
-
 from flask import Flask
+from flask import *
 import pymongo
 import time
 import cloudinary
+from bson.objectid import ObjectId
+
+# ------------------------------ Important Keys and connectivity ------------------------------
 
 cloudinary.config( 
   cloud_name = "ecproject", 
@@ -29,22 +14,50 @@ cloudinary.config(
 )
 
 client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=2000)
+print("Connected to database")
 db = client.Eduhub
 
-try:
-   print("Connected to database")
-except Exception:
-    print("Unable to connect to the database.")
+app = Flask(__name__)
 
-app = Flask(__name__) #creating the Flask class object   
- 
-@app.route('/') #decorator drfines the   
-def main():  
-    return "hello, this is our first flask website"; 
 
-@app.route('/home') #decorator drfines the   
-def home():  
-    return "hello, this is our route to home API";  
+# ------------------------------ API session starts here ------------------------------
+
+@app.route('/home', methods=["GET", "POST"])
+def home():
+
+    if request.method == "GET":
+        cursor = db.clasroom.find({})
+        dataArr = []
+
+        for data in cursor:
+            dataArr.append({"name":data['name'], "ID": str(data['_id']), })
+
+        return jsonify(dataArr)
+
+    elif request.method == "POST":
+
+        db.clasroom.insert_one({
+            "name": request.json['name'],
+            "desc": request.json['desc'],
+            "professor": request.json['professor']
+        })
+        return "Request submitted sucessfully"
+
+
+@app.route('/course/<id>')
+def course(id):
+    cursor = db.classcontent.find({"parentID" : id})
+    dataArr = []
+
+    for index, data in enumerate(cursor):
+        dataArr.append({"name":data['name'], "desc":data['desc'], "topics":[], "students":[]})
+        for subdata in data['topics']:
+            dataArr[index]["topics"].append({"name": subdata['name'], "page":subdata['pages']})
+        for subdata in data['students']:
+             dataArr[index]["students"].append(subdata)
+
+    return jsonify(dataArr);  
   
+
 if __name__ =='__main__':  
     app.run(debug = True)  
