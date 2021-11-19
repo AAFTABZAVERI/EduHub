@@ -1,3 +1,22 @@
+'''
+IMP How to setup 
+
+-> Make sure you have python(3.8 or above) installed in your system (and python file path is also working)
+-> Then clone This repo
+-> Then Open this repo in VScode and press 'Ctrl + j' and type 'pip install virtualenv'
+-> Navigate to your repo 'cd eduhub-be'
+-> There type 'virtual eduhubenv'
+-> Then type '.\eduhubenv\Scripts\activate'
+-> If you get any execution policy error then open powershell and type 'Set-ExecutionPolicy unrestricted -scope CurrentUser'
+-> Then type this '.\eduhubenv\Scripts\activate' and it should not show any error
+-> Now type 'pip install -r requirement.txt'
+-> After all files are downloaded type 'python .\server.py'
+
+
+-> If everything worked completely fine then "Great you are a genius !!!" 
+-> IF you are stuck call 7777905606
+'''
+
 from flask import Flask
 import pymongo
 import time
