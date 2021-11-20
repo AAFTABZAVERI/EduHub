@@ -4,6 +4,8 @@ import pymongo
 import time
 import cloudinary
 from bson.objectid import ObjectId
+import certifi
+ca = certifi.where()
 
 # ------------------------------ Important Keys and connectivity ------------------------------
 
@@ -13,8 +15,11 @@ cloudinary.config(
   api_secret = "YzgLHHq_UdSWuraexkccPlQ-I_c" 
 )
 
-client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=2000)
+
+client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority",tlsCAFile=ca)
 print("Connected to database")
+
+
 db = client.Eduhub
 
 app = Flask(__name__)
