@@ -1,9 +1,10 @@
-from flask import Flask
 from flask import *
 import pymongo
 import time
 import cloudinary
 from bson.objectid import ObjectId
+import certifi
+
 
 # ------------------------------ Important Keys and connectivity ------------------------------
 
@@ -13,10 +14,11 @@ cloudinary.config(
   api_secret = "YzgLHHq_UdSWuraexkccPlQ-I_c" 
 )
 
-client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority", serverSelectionTimeoutMS=2000)
+client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certificate)
 print("Connected to database")
 db = client.Eduhub
 
+certificate = certifi.where()
 app = Flask(__name__)
 
 
@@ -30,7 +32,7 @@ def home():
         dataArr = []
 
         for data in cursor:
-            dataArr.append({"name":data['name'], "ID": str(data['_id']), })
+            dataArr.append({"name":data['name'], "ID": str(data['_id']), "professor": data['professor']})
 
         return jsonify(dataArr)
 
