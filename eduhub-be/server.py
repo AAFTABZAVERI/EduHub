@@ -14,11 +14,11 @@ cloudinary.config(
   api_secret = "YzgLHHq_UdSWuraexkccPlQ-I_c" 
 )
 
+certificate = certifi.where()
 client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certificate)
 print("Connected to database")
 db = client.Eduhub
 
-certificate = certifi.where()
 app = Flask(__name__)
 
 
