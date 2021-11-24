@@ -1,40 +1,74 @@
-.container {
-    border: 1px solid #eaeaea;
-    border-radius: 10px;
-    transition: color 0.15s ease, border-color 0.15s ease;
-    padding: 4rem 0;
-    display: grid;
-    grid-column-gap: 50px;
-    grid-template-columns: auto auto auto;
-  }
-
-.card {
-    margin: 1rem;
-    padding: 1.5rem;
-    text-align: left;
-    color: inherit;
-    text-decoration: none;
-    border: 1px solid #eaeaea;
-    border-radius: 10px;
-    transition: color 0.15s ease, border-color 0.15s ease;
-    max-width: 300px;
-  }
+.navbar{
+  position: relative;
+  background-color: #eeeeee;
+  overflow: hidden;
+  box-shadow: 5px 5px 5px #D3D3D3;
   
-.card:hover,
-.card:focus,
-.card:active {
-  color: #0070f3;
-  border-color: #0070f3;
-  cursor: pointer;
 }
 
-.card h2 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
+.navbar a{
+  float: left;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.navCentered a {
+  float: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.card p {
-  margin: 0;
-  font-size: 1.25rem;
-  line-height: 1.5;
+.navbarRight {
+  float: right;
+}
+.navbarRight a{
+  font-size: 17px;
+  margin-right: 20px;
+}
+
+.btn{
+  background-color: #F37A51;
+  border: white;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  margin-right: 20px;
+  margin-top: 6px
+}
+.gridContainer {
+  display: grid;
+  grid-column-gap: 100px;
+  grid-row-gap: 100px;
+  grid-template-columns: 2fr 2fr;
+  padding: 30px;
+  padding-top:5%;
+}
+
+.gridItem {
+  background-color: #F37A51;
+  padding: 20px 20px 5px 10px;
+  font-size: 30px;
+  color: #ffffff;
+  border-radius: 20px;
+}
+.gridItem img{
+  height: 70px;
+  width: 70px;
+  border-radius: 40px;
+}
+
+.class{
+  display: flex;
+}
+
+.title{
+  padding-left: 20px;
+}
+.desc{
+  font-size: smaller;
+  padding-left: 20px;
 }
