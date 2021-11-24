@@ -1,9 +1,18 @@
 from flask import *
+from flask_cors import CORS
+
+from google.oauth2 import id_token
+from google.auth.transport import requests
+
 import pymongo
-import json
 import cloudinary
-from bson.objectid import ObjectId
+
 import certifi
+import os
+from datetime import timedelta
+
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # ------------------------------ Important Keys and connectivity ------------------------------
@@ -20,9 +29,30 @@ print("Connected to database")
 db = client.Eduhub
 
 app = Flask(__name__)
+CORS(app)
+
+app.secret_key = os.getenv("APP_SECRET_KEY")
+app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 
 # ------------------------------ API session starts here ------------------------------
+@app.route('/tokenApi', methods=["POST"])
+def tokenApi():
+    print("executed")
+    print(request.json['tokenId'])
+    try:
+        idinfo = id_token.verify_oauth2_token(request.json['tokenId'], requests.Request(), "1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com")
+        
+    except ValueError:
+        pass
+    # email = dict(session)['profile']['email']
+    # name = dict(session)['profile']['name']
+    # google = oauth.create_client('google')  # create the google oauth client
+    # redirect_uri = url_for('home', _external=True)
+    # return google.authorize_redirect(redirect_uri)
+    return f'Token Authinciated'
+
 
 @app.route('/home', methods=["GET", "POST"])
 def home():
@@ -56,10 +86,10 @@ def course(id):
         for subdata in data['topics']:
             dataArr[index]["topics"].append({"name": subdata['name'], "page":subdata['pages']})
         for subdata in data['students']:
-             dataArr[index]["students"].append(subdata)
+            dataArr[index]["students"].append(subdata)
 
     return jsonify(dataArr);  
-  
+
 
 if __name__ =='__main__':  
     app.run(debug = True)  

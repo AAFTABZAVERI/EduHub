@@ -1,16 +1,11 @@
 
 import { getSession } from 'next-auth/client';
-// import { GoogleLogout } from 'react-google-login';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import styles from '../styles/dashboard.module.css';
 import { signOut } from 'next-auth/client';
 
 
-export default function Homescreen() {
+export default function Homescreen({ user }) {
 
-  const logout = (response) => {
-    console.log(response);
-  }
 
   return (
     <div>
@@ -28,21 +23,28 @@ export default function Homescreen() {
         <div className={styles.card}> DSS </div>
       </div>
       <p>
-        {/* Welcome to EduHub: <b>{user.name}</b> */}
+        Welcome to EduHub: <b>{user.name}</b>
       </p>
-      {/* <p>{user.email}</p> */}
+      <p>{user.email}</p>
       <button className={styles.primaryButton} onClick={() => signOut()}>
         Sign Out
       </button>
-      {/* <GoogleLogout
-      clientId="1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com"
-      buttonText="Logout"
-      uxMode = 'redirect'
-      redirectUri = 'http://localhost:3000/glogin'
-      onLogoutSuccess={logout}
-    >
-    </GoogleLogout> */}
+      
 
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    context.res.writeHead(302, { Location: '/' });
+    context.res.end();
+    return {};
+  }
+  return {
+    props: {
+      user: session.user,
+    },
+  };
 }
