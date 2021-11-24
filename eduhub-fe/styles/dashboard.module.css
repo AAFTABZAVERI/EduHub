@@ -55,10 +55,13 @@
   color: #ffffff;
   border-radius: 20px;
 }
-.gridItem img{
-  height: 70px;
-  width: 70px;
-  border-radius: 40px;
+.subjectImg{
+  height: 75px;
+  width: 12%;
+  border-radius: 80px;
+  margin-top: 6%;
+  margin-left: 10px;
+  flex-shrink: 0;
 }
 
 .class{
@@ -66,9 +69,26 @@
 }
 
 .title{
-  padding-left: 20px;
+  padding-left: 35px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 .desc{
   font-size: smaller;
-  padding-left: 20px;
+  padding-left: 18px;
+  margin-top: 0px;
+}
+
+.prof{
+  font-size: 20px;
+  margin-top: 4px;
+  margin-left: 35px;
+}
+.dots{
+  width: 70px;
+  margin-right: -28px;
+}
+
+.other{
+  flex-direction: column;
 }
