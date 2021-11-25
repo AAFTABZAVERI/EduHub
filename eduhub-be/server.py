@@ -1,11 +1,14 @@
+from logging import error
 from flask import *
 from flask_cors import CORS
+
+import pymongo
+import cloudinary
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-import pymongo
-import cloudinary
+from auth import login_required
 
 import certifi
 import os
@@ -37,26 +40,35 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 
 # ------------------------------ API session starts here ------------------------------
-@app.route('/tokenApi', methods=["POST"])
+@app.route('/tokenApi', methods=["GET"])
 def tokenApi():
     print("executed")
-    print(request.json['tokenId'])
-    try:
-        idinfo = id_token.verify_oauth2_token(request.json['tokenId'], requests.Request(), "1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com")
-        
-    except ValueError:
-        pass
-    # email = dict(session)['profile']['email']
-    # name = dict(session)['profile']['name']
-    # google = oauth.create_client('google')  # create the google oauth client
-    # redirect_uri = url_for('home', _external=True)
-    # return google.authorize_redirect(redirect_uri)
+    idinfo = id_token.verify_oauth2_token(request.headers['Authtoken'], requests.Request(), "1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com")
+    # print(idinfo)
+    data = db.user.find_one({"email": idinfo["email"]})
+    print(data)
+    if not (data):
+        db.user.insert_one({
+            "name": idinfo["name"],
+            "email": idinfo["email"],
+            "role": "student",
+            "image" : idinfo["picture"],
+            "courses" : []
+        })
+    # print(request.json['tokenId'])
+    # try:
+    #     idinfo = id_token.verify_oauth2_token(request.headers['Authtoken'], requests.Request(), "1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com")
+    #     print(idinfo)
+    # except ValueError:
+    #     print("error")
+        # return error;
+  
     return f'Token Authinciated'
 
 
 @app.route('/home', methods=["GET", "POST"])
+#@login_required
 def home():
-
     if request.method == "GET":
         cursor = db.clasroom.find({})
         dataArr = []
@@ -77,6 +89,7 @@ def home():
 
 
 @app.route('/course/<id>')
+# @login_required
 def course(id):
     cursor = db.classcontent.find({"parentID" : id})
     dataArr = []
