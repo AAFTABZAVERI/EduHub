@@ -1,21 +1,14 @@
 import { useState,useEffect } from 'react';
 import style from '../styles/Home.module.css';
 import styles from '../styles/dashboard.module.css';
+import NavBar from '../components/navbar';
 
 
-export default function Dashboard({ user }) {
-
-  const [name,setName] = useState(0);
-  useEffect(() => {
-    if (window) { 
-      // set props data to session storage or local storage  
-      setName(sessionStorage.getItem("name"));
-    }
-}, []);
+export default function Dashboard() {
   return (
 
     <div className={style.container}>
-      <div className={styles.navbar}>
+      {/* <div className={styles.navbar}>
         <a> Home </a>
         <div className={styles.navCentered}>
           <a> EduHub Dashboard</a>
@@ -26,7 +19,8 @@ export default function Dashboard({ user }) {
               Sign Out
           </button>
         </div>
-      </div>
+      </div> */}
+      <NavBar />
       <div className={styles.gridContainer}>
         <div className={styles.gridItem}>
           <div className={styles.class}>
