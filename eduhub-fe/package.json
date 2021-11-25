@@ -1,0 +1,25 @@
+{
+  "name": "eduhub-fe",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "next": "12.0.3",
+    "next-auth": "^3.29.0",
+    "next-images": "^1.8.2",
+    "nodemailer": "^6.7.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-google-login": "^5.2.2",
+    "swr": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.3"
+  }
+}

@@ -1,0 +1,67 @@
+.left {
+    padding-left: 8rem;
+    float: left;
+    width: 50%;
+  }
+  .right{
+    padding-left: 8rem;
+    float:right;
+    width: 50%;
+  }
+
+  .card1, .card2 {
+    margin: 1rem;
+    width: 15%;
+    padding-top: 15%;
+    text-align: center;
+    float: left;
+    color: white;
+    text-decoration: none;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    /* transition: color 0.15s ease, border-color 0.15s ease; */
+    min-width: 30%;
+    min-height: 35vh;
+  }
+  .card1{
+    background-color: rgb(38, 18, 150);
+  }
+  .card2{
+    background-color: rgb(14, 140, 212);
+  }
+.card1:hover,.card2:hover {
+  color: #ff0000;
+  border-color: #0070f3;
+  cursor: pointer;
+}
+.p:hover{
+  cursor: pointer;
+}
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.heading{
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  margin: 3% 5%;
+  padding: 0.5%;
+  /* background-color: rgb(228, 66, 93); */
+  /* transition: color 0.15s ease, border-color 0.15s ease; */
+  /* padding: 2rem; */
+  /* display: grid; */
+}
+ .chapter{
+     margin-left: 4%;
+     margin-right: 4%;
+     width: 50%;
+ } 
+ .p{
+    margin-left: 6%;
+ }
