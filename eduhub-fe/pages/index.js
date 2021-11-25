@@ -28,7 +28,7 @@ export default function Home() {
 
     axios.get('http://127.0.0.1:5000/tokenApi', {
       headers: {
-        Authtoken: `${sessionStorage.getItem("tokenID")}`
+        Authorization: `Bearer ${sessionStorage.getItem("tokenID")}`
       }
     })
     .then(function (response) {
