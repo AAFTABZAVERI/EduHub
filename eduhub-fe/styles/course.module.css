@@ -72,4 +72,17 @@
  .add{
    color: #F37A51;
    margin-left: 10%;
+   border: none;
+   background-color: transparent;
+ }
+
+ .btn{
+   background-color: #F37A51;
+   border: none;
+   color: white;
+   font-size: 30px;
+   padding: 10px 22px;
+   border-radius: 60%;
+   margin-left: 390%;
+   margin-bottom: 8%;
  }

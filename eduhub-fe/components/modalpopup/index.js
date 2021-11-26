@@ -1,52 +1,46 @@
-import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+import styles from "./modalpopup.module.css"
 
-export default class Modalpopup extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			show: false,
-		};
+function Modal({show, onClose, children, title}) {
+    const [isBrowser, setIsBrowser] = useState(false);
+  
+    useEffect(() => {
+      setIsBrowser(true);
+    }, []);
+
+	const handleClose = (e) => {
+		e.preventDefault();
+		onClose();
 	}
 
-	handleModal() {
-		this.setState((pState) => ({ show: !pState.show }));
-	}
- 
-	render() {
-		const { show } = this.state;
-		return (
-			<div>
-				{/* <h1>Bootstrap model in react</h1> */}
-				<Button
-					onClick={() => {
-						this.handleModal();
-					}}
-				>
-					Open Modal
-				</Button>
-				<Modal
-					onHide={() => {
-						this.handleModal();
-					}}
-					show={show}
-					size="md"
-					aria-labelledby="contained-modal-title-vcenter"
-					centered
-				>
-					<Modal.Header closeButton>You need to login first</Modal.Header>
-					<Modal.Body>Click here to login</Modal.Body>
-					<Modal.Footer>
-						<Button
-							onClick={() => {
-								this.handleModal();
-							}}
-						>
-							Close
-						</Button>
-					</Modal.Footer>
-				</Modal>
+    const modalContent = show ? (
+		<div className={styles.overlay}>
+			<div className={styles.modal}>
+				<div className={styles.header}>
+					<p>{title}</p>
+					<a href="#" onClick={handleClose}>
+						<button className={styles.btn}>
+							X
+						</button>	
+					</a>
+				</div>
+				<div className={styles.body}>
+					{children}
+				</div>
 			</div>
-		);
+		</div>
+	): null;
+
+	if(isBrowser){
+		return ReactDOM.createPortal(
+			modalContent,
+			document.getElementById("modal-root")
+		)
+	}else{
+		return null;
 	}
+  
 }
+
+export default Modal;

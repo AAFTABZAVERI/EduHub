@@ -1,9 +1,12 @@
 import React from 'react';
-import Popup from '../components/modalpopup';
+import { useEffect, useRef, useState } from "react";
+import Modal from '../components/modalpopup';
 import NavBar from '../components/navbar';
 import styles from '../styles/course.module.css';
 
 export default function course() {
+    const [showModal, setShowModal] = useState(false);
+    const [showTopicModal, setShowTopicModal] = useState(false);
     return (
         <div>
             <NavBar />
@@ -19,7 +22,14 @@ export default function course() {
                         <p className={styles.p}> Topic 1: any kind of description</p>
                         <p className={styles.p}> Topic 2: any kind of description</p>
                         <p className={styles.p}> Topic 3: any kind of description</p>
-                        <p className={styles.add}> + Add Topic</p>
+                        <button className={styles.add} onClick={() => setShowTopicModal(true)}>+ Add Topic</button>
+                        <Modal
+                            onClose={() => setShowTopicModal(false)}
+                            show={showTopicModal}
+                            title="Add topic"
+                        >
+                                This is Add Topic Modal
+                        </Modal>
                         <hr />
                     </div>
 
@@ -28,13 +38,35 @@ export default function course() {
                         <p className={styles.p}> Topic 1: any kind of description</p>
                         <p className={styles.p}> Topic 2: any kind of description</p>
                         <p className={styles.p}> Topic 3: any kind of description</p>
-                        <p className={styles.add}> + Add Topic</p>
+                        <button className={styles.add} onClick={() => setShowTopicModal(true)}>+ Add Topic</button>
+                        <Modal
+                            onClose={() => setShowTopicModal(false)}
+                            show={showTopicModal}
+                            title="Add topic"
+                        >
+                                This is Add Topic Modal
+                        </Modal>
                         <hr />
                     </div>
 
                     <div className={styles.chapter}>
                         <h2> General </h2>
-                        <p className={styles.add}> + Add Topic</p>
+                        <button className={styles.add} onClick={() => setShowTopicModal(true)}>+ Add Topic</button>
+                        <Modal
+                            onClose={() => setShowTopicModal(false)}
+                            show={showTopicModal}
+                            title="Add topic"
+                        >
+                                This is Add Topic Modal
+                        </Modal>
+                        <button className={styles.btn} onClick={() => setShowModal(true)}>+</button>
+                        <Modal
+                            onClose={() => setShowModal(false)}
+                            show={showModal}
+                            title="Add Chapter"
+                        >
+                                Add Chapters 
+                        </Modal>
                     </div>
                 </div>
                 <div className={styles.right}>
@@ -50,7 +82,7 @@ export default function course() {
                     </div>
                 </div>
             </div>
-            <Popup />
+            
         </div>
     )
 }
