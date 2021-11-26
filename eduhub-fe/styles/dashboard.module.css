@@ -8,11 +8,13 @@
 }
 
 .gridItem {
-  background-color: #F37A51;
+  background-color: hsla(15, 87%, 64%, 0.945);
   padding: 20px 20px 5px 10px;
   font-size: 30px;
   color: #ffffff;
   border-radius: 20px;
+  box-shadow: 8px 8px 10px rgb(0 0 0 / 0.2);
+  opacity: 0.8;
 }
 .subjectImg{
   height: 75px;
