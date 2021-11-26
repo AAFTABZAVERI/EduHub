@@ -1,7 +1,8 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import style from '../styles/Home.module.css';
 import styles from '../styles/dashboard.module.css';
 import NavBar from '../components/navbar';
+// import Popup from '../components/modalpopup';
 
 
 export default function Dashboard() {
@@ -24,7 +25,7 @@ export default function Dashboard() {
       <div className={styles.gridContainer}>
         <div className={styles.gridItem}>
           <div className={styles.class}>
-            <img className={styles.subjectImg} src="/subject1.jpg"/>
+            <img className={styles.subjectImg} src="/subject1.jpg" />
             <div className={styles.other}>
               <p className={styles.title}> Enterprise computing </p>
               <p className={styles.prof}>Prof. PM Jatt</p>
@@ -33,12 +34,13 @@ export default function Dashboard() {
               </div>
             </div>
             <div>
-              <img className={styles.dots} src="/three-dots.png"/>
+              <img className={styles.dots} src="/three-dots.png" />
             </div>
           </div>
         </div>
       </div>
     </div>
+
   );
 }
 

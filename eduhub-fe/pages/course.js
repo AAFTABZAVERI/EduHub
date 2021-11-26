@@ -1,4 +1,5 @@
 import React from 'react';
+import Popup from '../components/modalpopup';
 import NavBar from '../components/navbar';
 import styles from '../styles/course.module.css';
 
@@ -34,6 +35,7 @@ export default function course() {
                     <div className={styles.card2}> Quizzes </div>
                 </div>
             </div>
+            <Popup />
         </div>
     )
 }
