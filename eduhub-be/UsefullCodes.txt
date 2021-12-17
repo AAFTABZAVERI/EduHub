@@ -1,0 +1,6 @@
+for index, data in enumerate(cursor):
+        dataArr.append({"name":data['name'], "desc":data['desc'], "topics":[], "students":[]})
+        for subdata in data['topics']:
+            dataArr[index]["topics"].append({"name": subdata['name'], "page":subdata['pages']})
+        for subdata in data['students']:
+            dataArr[index]["students"].append(subdata)
