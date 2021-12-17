@@ -2,7 +2,9 @@ import GoogleLogin from 'react-google-login';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Router from 'next/router'
-const axios = require('axios');
+import axios from "axios"
+
+// const axios = require('axios');
 
 export default function Home() {
   //const [session, loadingSession] = useSession();
