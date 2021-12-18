@@ -12,8 +12,10 @@ from time import sleep
 from datetime import timedelta
 
 from dotenv import load_dotenv
+from pymongo import response
 load_dotenv()
 
+from services.instituteService import *
 
 from bson.objectid import ObjectId
 import certifi, random , math
@@ -40,119 +42,23 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 @app.route('/add-institute', methods=["POST"])
 def addinstitute():
-    print(request.json)
-    db.institute.insert_one({
-            "instituteName": request.json['name'],
-            "description": request.json['description'],
-            "email": request.json['email'],
-            "professors": [],
-            "students": [],
-    })
-
-    return "Institute created"
+    serviceResponse = addinstituteService(request)
+    return serviceResponse
 
 @app.route('/institute-login', methods=["GET"])
 def institutelogin():
-    idinfo = None
-    while idinfo is None:
-        try:
-            idinfo = id_token.verify_oauth2_token(request.headers["Authorization"].split()[1], requests.Request(), "1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com")
-        except:
-            sleep(0.5)
-            pass
-
-    instituteEmail = idinfo["email"]
-    instituteData =  db.institute.find_one({"email": instituteEmail})
-    responseData = {"Id":str(instituteData["_id"]), "instituteName":instituteData["instituteName"], "instituteDescription":instituteData["description"]}
-    return jsonify(responseData)
-
+    serviceResponse = instituteloginService()
+    return serviceResponse
 
 @app.route('/institute-students/<id>', methods=["GET", "POST", "DELETE", "PATCH"])
 def institutestudents(id):
-    if request.method == "GET":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        print("data sent")
-        return jsonify(instituteData["students"])
-
-    elif request.method == "POST":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        studentlist = []
-        for oldstudent in instituteData["students"]:
-            studentlist.append(oldstudent)
-
-        for newstudent in request.json["students"]:
-            if not newstudent in studentlist:
-                studentlist.append(newstudent)
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"students": studentlist}})
-
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["students"])
-
-    elif request.method == "DELETE":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        studentlist = []
-        for oldstudent in instituteData["students"]:
-            studentlist.append(oldstudent)
-
-        for removestudent in request.json["students"]:
-            if removestudent in studentlist:
-                studentlist.remove(removestudent)
-
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"students": studentlist}})
-        
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["students"])
-
-    else:
-        abort(400)
-
+    serviceResponse = institutestudentsService(id, request)
+    return serviceResponse
 
 @app.route('/institute-professors/<id>', methods=["GET", "POST", "DELETE"])
 def instituteprofessor(id):
-
-    if request.method == "GET":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["professors"])
-
-    elif request.method == "POST":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        professorslist = []
-        for oldprofessor in instituteData["professors"]:
-            professorslist.append(oldprofessor)
-
-        for newprofessor in request.json["professors"]:
-            if not newprofessor in professorslist:
-                professorslist.append(newprofessor)
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"professors": professorslist}})
-
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["professors"])
-
-    elif request.method == "DELETE":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        professorslist = []
-        for oldprofessor in instituteData["professors"]:
-            professorslist.append(oldprofessor)
-
-        for removeprofessor in request.json["professors"]:
-            if removeprofessor in professorslist:
-                professorslist.remove(removeprofessor)
-
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"professors": professorslist}})
-        
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["professors"])
-
-    else:
-        abort(400)
+    serviceResponse = instituteprofessorService(id, request)
+    return serviceResponse
 
 #------------------------------- Faculty APIs---------------------------
 
