@@ -1,4 +1,4 @@
-from dataObjects.connection_file import *
+from dataObjects.connection import *
 from bson.objectid import ObjectId
 
 # ------------------------------ Institute Data object functions ------------------------------

@@ -12,10 +12,10 @@ from time import sleep
 from datetime import timedelta
 
 from dotenv import load_dotenv
-from pymongo import response
 load_dotenv()
 
 from services.instituteService import *
+from services.facultyService import *
 
 from bson.objectid import ObjectId
 import certifi, random , math
@@ -29,9 +29,9 @@ db = client.Eduhub
 app = Flask(__name__)
 CORS(app)
 
-app.secret_key = os.getenv("APP_SECRET_KEY")
-app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
+# app.secret_key = os.getenv("APP_SECRET_KEY")
+# app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
 
 
@@ -40,7 +40,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 #--------------------------------------------------------------------------------------
 
 
-#------------------------------- institute APIs start----------------------------------
+#------------------------------- Institute APIs start----------------------------------
 
 @app.route('/add-institute', methods=["POST"])
 def addinstitute():
