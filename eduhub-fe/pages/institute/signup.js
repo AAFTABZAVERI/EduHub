@@ -48,22 +48,23 @@ export default function signup() {
                         <input ref={description} type="text" id="description" name="description" className={styles.txtbox} /> <br /><br />
                         <label className={styles.lbl}>Email Address</label> &nbsp;
                         <input ref={email} type="text" id="email" name="email" className={styles.txtbox} /> <br /><br />
-                        <button onClick={instituteSignup} className={styles.btn}> Submit </button> <br /><br />
                         {/* Your form is submitted,<Link href="login"> Login </Link>to access your portal. */}
 
                     </form> <br />
-
+                    
+                        <button onClick={instituteSignup} className={styles.btn}> Submit </button> <br /><br />
+                    
                 </div>
                 :
-                <div>
-                    <label>Your form is submitted,</label>
+                <div className={styles.text}>
+                    <div className={styles.heading_div}><label className={styles.heading}>Your form is submitted</label></div>
                     <div className={styles.googlebtn}>
                         <div className={styles.icon}>
-                            <img className={styles.googleicon} src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+                            <img className={styles.googleicon} src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" /> &nbsp; &nbsp; &nbsp; 
+                            <Link href="login" className={styles.btntext}> Login </Link>
                         </div>
-                        <h1><Link href="login" className={styles.btntext}> Login </Link></h1>
                     </div>
-                    <label>to access your portal.</label>
+                <div className={styles.heading_div2}><label className={styles.heading}>to Access Admin portal</label></div>
                 </div>
             }
 
