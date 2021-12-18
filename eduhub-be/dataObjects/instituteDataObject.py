@@ -1,27 +1,5 @@
-import pymongo
-
-import certifi
-import os
-from time import sleep
-from datetime import timedelta
-
-from dotenv import load_dotenv
-load_dotenv()
-
-
+from dataObjects.connection_file import *
 from bson.objectid import ObjectId
-import certifi, random , math
-
-# ------------------------------ Important Keys and connectivity ------------------------------
-
-certificate = certifi.where()
-client = pymongo.MongoClient("mongodb+srv://Admin:Admin12345@cluster0.kr0h0.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certificate)
-print("Connected to database")
-db = client.Eduhub
-
-# ---------------------------- Important Keys and connectivity End---------------------------
-
-
 
 # ------------------------------ Institute Data object functions ------------------------------
 def addinstituteDO(request):

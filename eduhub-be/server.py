@@ -33,12 +33,14 @@ app.secret_key = os.getenv("APP_SECRET_KEY")
 app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
 
+
+
 # -------------------------------------------------------------------------------------
 # ******************************API section starts here********************************
 #--------------------------------------------------------------------------------------
 
 
-#------------------------------- institute APIs----------------------------------
+#------------------------------- institute APIs start----------------------------------
 
 @app.route('/add-institute', methods=["POST"])
 def addinstitute():
@@ -60,7 +62,23 @@ def instituteprofessor(id):
     serviceResponse = instituteprofessorService(id, request)
     return serviceResponse
 
-#------------------------------- Faculty APIs---------------------------
+#------------------------------- institute APIs End----------------------------------
+
+
+
+
+#------------------------------- Faculty APIs Start---------------------------
+
+#------------------------------- Faculty APIs End---------------------------
+
+
+
+
+#------------------------------- Students APIs Start---------------------------
+
+#------------------------------- Students APIs End---------------------------
+
+
 
 
 
@@ -90,7 +108,6 @@ def tokenApi():
   
     return f'Token Authinciated'
 
-#------------------------------ Student APIs ------------------------------------
 @app.route('/home', methods=["GET", "POST"])
 #@login_required
 def home():

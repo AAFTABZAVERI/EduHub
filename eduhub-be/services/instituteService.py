@@ -1,22 +1,14 @@
 from flask import jsonify, request, abort
-import pymongo
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-import certifi
-import os
 from time import sleep
-from datetime import timedelta
-
-from dotenv import load_dotenv
-load_dotenv()
 
 from dataObjects.instituteDataObject import *
 
-from bson.objectid import ObjectId
-import certifi, random , math
 
+# ------------------------------ Institute Services  ------------------------------
 
 def addinstituteService(request):
     addinstituteDO(request)
