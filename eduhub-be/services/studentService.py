@@ -8,7 +8,7 @@ from time import sleep
 from dataObjects.instituteDataObject import *
 
 
-def tudentClassService(id, request):
+def studentClassService(id, request):
     if request.method == "GET":
         instituteData = (id)
         return jsonify(instituteData["students"])
