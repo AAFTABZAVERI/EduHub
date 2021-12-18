@@ -49,12 +49,21 @@ export default function signup() {
                         <label className={styles.lbl}>Email Address</label> &nbsp;
                         <input ref={email} type="text" id="email" name="email" className={styles.txtbox} /> <br /><br />
                         <button onClick={instituteSignup} className={styles.btn}> Submit </button> <br /><br />
-                    </form>
-                    
+                        {/* Your form is submitted,<Link href="login"> Login </Link>to access your portal. */}
+
+                    </form> <br />
+
                 </div>
                 :
                 <div>
-                    Your form is submitted,<Link href="login"> Login </Link>to access your portal.
+                    <label>Your form is submitted,</label>
+                    <div className={styles.googlebtn}>
+                        <div className={styles.icon}>
+                            <img className={styles.googleicon} src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" />
+                        </div>
+                        <h1><Link href="login" className={styles.btntext}> Login </Link></h1>
+                    </div>
+                    <label>to access your portal.</label>
                 </div>
             }
 
