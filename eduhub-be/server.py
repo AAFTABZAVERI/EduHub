@@ -1,6 +1,6 @@
 from flask import *
 from flask_cors import CORS
-
+from datetime import datetime
 import pymongo
 
 from google.oauth2 import id_token
@@ -9,7 +9,7 @@ from google.auth.transport import requests
 import certifi
 import os
 from time import sleep
-from datetime import timedelta
+# from datetime import datetime
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -84,8 +84,20 @@ def studentClass(id):
     return serviceResponse
 
 
+@app.route('/student-assignment/<id>', methods=["GET", "POST","DELETE"])
+def studentAssignment(id):
+    serviceResponse = studentAssignmentService(id,request)
+    return serviceResponse
 
+@app.route('/student-quiz/<id>', methods=["GET", "POST","DELETE"])
+def studentQuiz(id):
+    serviceResponse = studentQuizService(id,request)
+    return serviceResponse
 
+@app.route('/student-material/<id>', methods=["GET", "POST","DELETE"])
+def studentMaterial(id):
+    serviceResponse = studentMaterialService(id,request)
+    return serviceResponse
 #------------------------------- Students APIs End---------------------------
 
 
