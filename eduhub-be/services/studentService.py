@@ -5,43 +5,37 @@ from google.auth.transport import requests
 
 from time import sleep
 
-from dataObjects.instituteDataObject import *
 
 
-def studentClassService(id, request):
+from bson.objectid import ObjectId
+from dataObjects.studentDataObject import *
+
+
+
+def studentCourseService(id, request):
     if request.method == "GET":
-        instituteData = (id)
-        return jsonify(instituteData["students"])
+        student = db.student.find_one({"_id" : ObjectId(id)})
+        return jsonify(student["course"])
 
-    elif request.method == "POST":
-        instituteData = instituteFindbyID(id)
-        studentlist = []
-        for oldstudent in instituteData["students"]:
-            studentlist.append(oldstudent)
-
-        for newstudent in request.json["students"]:
-            if not newstudent in studentlist:   
-                studentlist.append(newstudent)
-
-        instituteUpdateStudent(id, studentlist)
-
-        instituteData = instituteFindbyID(id)
-        return jsonify(instituteData["students"])
 
     elif request.method == "DELETE":
-        instituteData = instituteFindbyID(id)
-        studentlist = []
-        for oldstudent in instituteData["students"]:
-            studentlist.append(oldstudent)
 
-        for removestudent in request.json["students"]:
-            if removestudent in studentlist:
-                studentlist.remove(removestudent)
+        courseCode = request.json["courseCode"]
+        print(request.json["id"])
+        print(request.json["courseCode"])
+     
+        ret = db.course.update_many(
+            { "_id": request.json["studentId"] },
+             { "$pull": {"students":{"$in":[request.json["studentId"]]}}}
+        )
 
-        instituteUpdateStudent(id, studentlist)
-        
-        instituteData = instituteFindbyID(id)
-        return jsonify(instituteData["students"])
+        db.student.update_many(
+            { "_id": request.json["classId"]},
+            { "$pull": {"cources":{"$in":[request.json["classId"]]}}}
+        )
+
+        print(ret)
+        return "done"
 
     else:
         abort(400)

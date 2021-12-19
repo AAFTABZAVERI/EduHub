@@ -83,7 +83,7 @@ def instituteprofessorService(id, request):
         for newprofessor in request.json["professors"]:
             if not newprofessor in professorslist:
                 professorslist.append(newprofessor)
-
+        
         instituteUpdateProfessors(id, professorslist)
         
         instituteData = instituteFindbyID(id)

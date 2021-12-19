@@ -78,9 +78,9 @@ def instituteprofessor(id):
 #------------------------------- Students APIs Start---------------------------
 
 
-@app.route('/student-class/<id>', methods=["GET"])
+@app.route('/student-class/<id>', methods=["GET", "POST","DELETE"])
 def studentClass(id):
-    serviceResponse = studentClassService(id)
+    serviceResponse = studentCourseService(id,request)
     return serviceResponse
 
 
@@ -121,6 +121,7 @@ def tokenApi():
 @app.route('/home', methods=["GET", "POST"])
 #@login_required
 def home():
+    randomlist =[]
     if request.method == "GET":
         cursor = db.clasroom.find({})
         dataArr = []
