@@ -68,6 +68,10 @@ def instituteprofessor(id):
 
 
 #------------------------------- Faculty APIs Start---------------------------
+@app.route('/faculty-classroom/<id>', methods=["GET", "POST", "DELETE"])
+def facultyClassroom():
+    serviceResponse = facultyClassroomService(id, request)
+    return serviceResponse 
 
 #------------------------------- Faculty APIs End---------------------------
 

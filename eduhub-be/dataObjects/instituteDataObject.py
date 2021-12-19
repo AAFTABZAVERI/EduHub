@@ -26,3 +26,25 @@ def instituteUpdateProfessors(id, professorslist):
     return db.institute.update_one(
                     {"_id": ObjectId(id)},
                     {"$set": {"professors": professorslist}})
+
+def instituteAddFacultyObject(id, professorEmail):
+    return db.faculty.insert_one({
+        "name" : "",
+        "email" : professorEmail,
+        "courses" : [],
+        "instituteID" : id
+    })
+
+def instituteRemoveFacultyObject(professorEmail):
+    return db.faculty.delete_one({"email": professorEmail})
+
+def instituteAddStudentObject(id, studentEmail):
+    return db.student.insert_one({
+        "name" : "",
+        "email" : studentEmail,
+        "courses" : [],
+        "instituteID" : id
+    })
+
+def instituteRemoveStudentObject(studentEmail):
+    return db.student.delete_one({"email": studentEmail})
