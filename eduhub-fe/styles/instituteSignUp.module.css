@@ -1,0 +1,126 @@
+.container {
+  /* margin: 1rem;
+    padding: 1.5rem;
+    text-align: left;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    max-width: 300px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: auto;
+  margin: 8% auto;
+  overflow: auto;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  max-width: 30%;
+  flex-direction: column;
+}
+
+
+.container h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.container p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.card {
+  background: var(--color-background);
+  padding: calc(4 * var(--size-bezel));
+  margin-top: calc(4 * var(--size-bezel));
+  border-radius: var(--size-radius);
+  border: 3px solid var(--color-shadow, currentColor);
+  box-shadow: 0.5rem 0.5rem 0 var(--color-shadow, currentColor);
+}
+.txtbox {
+  padding: 0.5%;
+  border: none;
+  border-bottom: 1px solid rgba(145, 136, 136, 0.459);
+  height: 5vh;
+  width: 80%;
+  outline: none;
+}
+.lbl {
+  padding: 2%;
+}
+.btn {
+  padding: 1em;
+  background: #54bbeb;
+  color: #ffffff;
+  border: none;
+  width: 30%;
+  border-radius: 30px;
+  font-weight: 600;
+}
+
+.googlebtn {
+  width: 2.5%;
+  height: 42px;
+  border-radius: 2px;
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.25);
+  margin-top: 4%;
+  margin-left: 40%;
+  display: flex;
+}
+.icon {
+  position: absolute;
+  margin-top: 1px;
+  margin-left: 1px;
+  width: 40px;
+  height: 40px;
+  border-radius: 2px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.googleicon {
+  position: absolute;
+  margin-top: 11px;
+  margin-left: 11px;
+  width: 18px;
+  height: 18px;
+  padding-bottom: 11%;
+}
+.btntext {
+  color: #000000;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  font-family: "Roboto";
+  margin-left: 2%;
+}
+
+.heading{
+  margin: 10% 0 40% 0;
+  font-size: larger;
+}
+.heading2{
+  margin: 10% 0 40% 0;
+  font-size: 1.5rem;
+}
+.heading3{
+  margin: 10% 0 40% 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
+.heading_div{
+  margin-top: 10%;
+  margin-left: 40%;
+  font-size: 2rem;
+}
+.heading_div2{
+  margin-left: 40%;
+  font-size: 2rem;
+}
+.heading_div3{
+  text-align: center;
+  font-size: 2rem;
+}
