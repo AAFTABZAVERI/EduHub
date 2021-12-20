@@ -17,6 +17,7 @@ load_dotenv()
 from services.instituteService import *
 from services.facultyService import *
 from services.studentService import *
+from services.fileUploadService import *
 
 from bson.objectid import ObjectId
 import certifi, random , math
@@ -69,6 +70,17 @@ def instituteprofessor(id):
 
 
 #------------------------------- Faculty APIs Start---------------------------
+@app.route('/faculty-classroom/<id>', methods=["GET", "POST", "DELETE"])
+def facultyClassroom(id):
+    serviceResponse = facultyClassroomService(id, request)
+    return serviceResponse 
+
+@app.route('/file-upload', methods=["GET", "POST", "DELETE"])
+def fileUpload():
+    serviceResponse = fileUploadService(request.files['file'])
+    print(serviceResponse)
+    return "uploaded"
+ 
 
 #------------------------------- Faculty APIs End---------------------------
 
@@ -79,10 +91,9 @@ def instituteprofessor(id):
 
 
 @app.route('/student-class/<id>', methods=["GET", "POST","DELETE"])
-def studentClass(id):
+def studentClasses(id):
     serviceResponse = studentCourseService(id,request)
     return serviceResponse
-
 
 @app.route('/student-assignment/<id>', methods=["GET", "POST","DELETE"])
 def studentAssignment(id):

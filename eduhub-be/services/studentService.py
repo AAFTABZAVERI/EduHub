@@ -14,28 +14,55 @@ from dataObjects.studentDataObject import *
 
 def studentCourseService(id, request):
     if request.method == "GET":
-        student = db.student.find_one({"_id" : ObjectId(id)})
-        return jsonify(student["course"])
+        studentObject = db.student.find_one({"_id" : ObjectId(id)})
+
+        courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
+        courseData = []
+        for courses in courseCursor:
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+        return jsonify(courseData)
+
+    elif request.method == "POST":
+         
+        instituteId = request.json['instituteId']
+        courseCode = request.json['courseCode']
+        studentID = id
+        studentEmail = request.json['email']
+
+        if(db.institute.find_one({"_id" : ObjectId(instituteId), "students" : {'$in' : [studentEmail]}})):
+            course = db.course.find_one({"courseCode" : courseCode, "instituteId": instituteId})
+            if(course):
+                db.course.update_one({"_id" : course["_id"]}, {'$addToSet' : {"students" : ObjectId(studentID)}})
+                db.student.update_one({"_id" : ObjectId(studentID)}, {'$addToSet' : {"courses" : course["_id"]}})
+        
+        studentObject = db.student.find_one({"_id" : ObjectId(id)})
+        courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
+        courseData = []
+        for courses in courseCursor:
+            courseData.append({"courseId" : str(courses["_id"]), "name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+        
+        return jsonify(courseData)
+
+    
 
 
-    elif request.method == "DELETE":
-
-        courseCode = request.json["courseCode"]
-        print(request.json["id"])
-        print(request.json["courseCode"])
-     
-        ret = db.course.update_many(
-            { "_id": request.json["studentId"] },
-             { "$pull": {"students":{"$in":[request.json["studentId"]]}}}
+    elif request.method == "DELETE":     
+        db.course.update_one(
+            { "_id":  ObjectId(request.json["courseId"])},
+            { "$pull": {"students" :ObjectId(id)}}
         )
 
-        db.student.update_many(
-            { "_id": request.json["courseId"]},
-            { "$pull": {"cources":{"$in":[request.json["classId"]]}}}
+        db.student.update_one(
+            { "_id": ObjectId(id)},
+            { "$pull": {"courses" : ObjectId(request.json["courseId"])}}
         )
 
-        print(ret)
-        return "done"
+        studentObject = db.student.find_one({"_id" : ObjectId(id)})
+        courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
+        courseData = []
+        for courses in courseCursor:
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+        return jsonify(courseData)
 
     else:
         abort(400)
@@ -68,7 +95,6 @@ def  studentAssignmentService(id,request):
 def  studentQuizService(id,request):
     if request.method == "GET":
         course = db.course.find_one({"_id":ObjectId(request.json["courseId"])}) 
-        # print (course)
         return jsonify(course["quizes"])
 
     elif request.method == "POST":
@@ -93,9 +119,9 @@ def  studentQuizService(id,request):
 def studentMaterialService(id,request):
     if request.method == "GET":
         course = db.course.find_one({"_id":ObjectId(request.json["courseId"])}) 
-        # print (course)
         return jsonify(course["materials"])
     else:
         abort(400)
+
 
 

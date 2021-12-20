@@ -44,6 +44,7 @@ def institutestudentsService(id, request):
         for newstudent in request.json["students"]:
             if not newstudent in studentlist:   
                 studentlist.append(newstudent)
+                instituteAddStudentObject(id, newstudent)
 
         instituteUpdateStudent(id, studentlist)
 
@@ -59,6 +60,7 @@ def institutestudentsService(id, request):
         for removestudent in request.json["students"]:
             if removestudent in studentlist:
                 studentlist.remove(removestudent)
+                instituteRemoveStudentObject(removestudent)
 
         instituteUpdateStudent(id, studentlist)
         
@@ -84,6 +86,8 @@ def instituteprofessorService(id, request):
             if not newprofessor in professorslist:
                 professorslist.append(newprofessor)
         
+                instituteAddFacultyObject(id, newprofessor)
+
         instituteUpdateProfessors(id, professorslist)
         
         instituteData = instituteFindbyID(id)
@@ -98,6 +102,7 @@ def instituteprofessorService(id, request):
         for removeprofessor in request.json["professors"]:
             if removeprofessor in professorslist:
                 professorslist.remove(removeprofessor)
+                instituteRemoveFacultyObject(removeprofessor)
 
         instituteUpdateProfessors(id, professorslist)
         
