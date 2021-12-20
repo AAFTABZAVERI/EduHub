@@ -39,7 +39,7 @@ export default function login(){
             <div>
                 <div className={styles.container}>
                     <form>
-                        <h1 style={{"padding-bottom":"2%"}}> Login  To Institute </h1>
+                        <h1 style={{"padding-bottom":"10%","padding-top":"4%"}}> Login  To Institute </h1>
                        
                         <label className={styles.lbl}>E-mail Address </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input  type="text" id="email" name="email" className={styles.txtbox} /> <br /><br />
@@ -47,14 +47,13 @@ export default function login(){
                         <input  type="password" id="password" name="password" className={styles.txtbox} /> <br /><br />
                     </form> <br />
                         <button className={styles.btn}> Login</button> <br /><br />
-                            <hr className={styles.horizontal}></hr>
+                        <h3 className={styles.horizontal}><span className={styles.hori_text}>or</span></h3>
                         <GoogleLogin
                             clientId="1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com"
                             buttonText="Login to institite"
                             onSuccess={onSuccess}
                             onFailure={onFail}
                             cookiePolicy={'single_host_origin'}
-                            className={styles.google_btn}
                         />
                 </div>
         </div>

@@ -36,20 +36,37 @@ export default function signup() {
         // Router.push('/login')
     }
 
+    var count=5;
+
+    var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+
+        function timer()
+        {
+            count=count-1;
+            if (count <= 0)
+            {
+                clearInterval(counter);
+                //counter ended, do something here
+                Router.push('/institute/login')
+                return;
+            }
+        }
+        useEffect(() => {
+            document.getElementById("timer").innerHTML = count + " secs";
+        },[])
+        
     return (
         <div>
             {beforeSubmit ?
                 <div className={styles.container}>
                     <form>
-                        <h1> Sign Up </h1>
+                        <h1 style={{"padding-bottom":"10%","padding-top":"4%"}}> Sign Up </h1>
                         <label className={styles.lbl}>Institute Name</label>
                         <input ref={name} type="text" id="name" name="name" className={styles.txtbox} /> <br /><br />
                         <label className={styles.lbl}>Description </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input ref={description} type="text" id="description" name="description" className={styles.txtbox} /> <br /><br />
                         <label className={styles.lbl}>Email Address</label> &nbsp;
                         <input ref={email} type="text" id="email" name="email" className={styles.txtbox} /> <br /><br />
-                        {/* Your form is submitted,<Link href="login"> Login </Link>to access your portal. */}
-
                     </form> <br />
                     
                         <button onClick={instituteSignup} className={styles.btn}> Submit </button> <br /><br />
@@ -57,17 +74,11 @@ export default function signup() {
                 </div>
                 :
                 <div className={styles.text}>
-                    <div className={styles.heading_div}><label className={styles.heading}>Your form is submitted</label></div>
-                    <div className={styles.googlebtn}>
-                        <div className={styles.icon}>
-                            <img className={styles.googleicon} src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" /> &nbsp; &nbsp; &nbsp; 
-                            <Link href="login" className={styles.btntext}> Login </Link>
-                        </div>
-                    </div>
-                <div className={styles.heading_div2}><label className={styles.heading}>to Access Admin portal</label></div>
+                <div className={styles.heading_div}><label className={styles.heading}>Your form is submitted</label></div>
+                <div className={styles.heading_div2}><label className={styles.heading2}>You will be Redirected to Login Page in </label></div>
+                <div className={styles.heading_div3} ><label id="timer" className={styles.heading3}> </label></div>
                 </div>
             }
-
         </div>
     )
 }

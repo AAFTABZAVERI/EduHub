@@ -50,6 +50,7 @@
     height: 5vh;
     width: 80%;
     outline: none;
+    margin-bottom: 5%;
   }
   .lbl {
     padding: 2%;
@@ -65,6 +66,19 @@
   }
 
   .horizontal{
-    border-top: 1px solid rgba(145, 136, 136, 0.459) ;
-    width: 80%;
-  }
+    width: 60%; 
+    text-align: center; 
+    border-bottom: 1px solid rgba(161, 160, 160, 0.5); 
+    line-height: 0.1em;
+    margin: 10px 0 50px; 
+ } 
+ 
+ .hori_text{ 
+     background:#fff; 
+     padding:0 10px; 
+     color: rgba(53, 52, 52, 0.5);
+ }
+
+ .google_btn{
+   padding-top: 5%;
+ }

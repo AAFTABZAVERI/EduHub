@@ -44,7 +44,7 @@
 .txtbox {
   padding: 0.5%;
   border: none;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid rgba(145, 136, 136, 0.459);
   height: 5vh;
   width: 80%;
   outline: none;
@@ -102,6 +102,15 @@
   margin: 10% 0 40% 0;
   font-size: larger;
 }
+.heading2{
+  margin: 10% 0 40% 0;
+  font-size: 1.5rem;
+}
+.heading3{
+  margin: 10% 0 40% 0;
+  font-size: 1.5rem;
+  text-align: center;
+}
 .heading_div{
   margin-top: 10%;
   margin-left: 40%;
@@ -109,5 +118,9 @@
 }
 .heading_div2{
   margin-left: 40%;
+  font-size: 2rem;
+}
+.heading_div3{
+  text-align: center;
   font-size: 2rem;
 }
