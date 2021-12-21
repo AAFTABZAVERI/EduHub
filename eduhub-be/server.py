@@ -81,7 +81,15 @@ def fileUpload():
     print(serviceResponse)
     return "uploaded"
  
+@app.route('/faculty-assignment/<id>', methods=["GET", "POST", "DELETE"])
+def facultyAssignment(id):
+    serviceResponse = facultyAssignmentService(id, request)
+    return serviceResponse
 
+@app.route('/faculty-material/<id>', methods=["GET", "POST", "DELETE"])
+def facultyMaterial(id):
+    serviceResponse = facultyMaterialService(id, request)
+    return serviceResponse
 #------------------------------- Faculty APIs End---------------------------
 
 
