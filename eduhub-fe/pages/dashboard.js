@@ -29,7 +29,7 @@ export default function Dashboard({ user }) {
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, </p>
           </div>
         </div>
-        <div className={styles.gridItem}>Class name</div>
+        {/* <div className={styles.gridItem}>Class name</div> */}
       </div>
     </div>
   );
