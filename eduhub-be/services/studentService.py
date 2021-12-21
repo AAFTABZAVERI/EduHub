@@ -43,9 +43,6 @@ def studentCourseService(id, request):
         
         return jsonify(courseData)
 
-    
-
-
     elif request.method == "DELETE":     
         db.course.update_one(
             { "_id":  ObjectId(request.json["courseId"])},
@@ -69,9 +66,11 @@ def studentCourseService(id, request):
 
 def  studentAssignmentService(id,request):
     if request.method == "GET":
-        course = db.course.find_one({"_id":ObjectId(request.json["courseId"])})     
-        # print (course)
-        return jsonify(course["assignments"])
+        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        assigmetData = []
+        for assignment in assignmentCursor:
+            assigmetData.append(assignment["description"])
+        return jsonify(assigmetData)
 
     elif request.method == "POST":
         deadline = request.json["deadline"]
@@ -94,8 +93,11 @@ def  studentAssignmentService(id,request):
 
 def  studentQuizService(id,request):
     if request.method == "GET":
-        course = db.course.find_one({"_id":ObjectId(request.json["courseId"])}) 
-        return jsonify(course["quizes"])
+        QuizCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        quizData = []
+        for quiz in QuizCursor:
+            quizData.append(quiz["description"])
+        return jsonify(quizData)
 
     elif request.method == "POST":
         deadline = request.json["deadline"]
@@ -118,8 +120,11 @@ def  studentQuizService(id,request):
 
 def studentMaterialService(id,request):
     if request.method == "GET":
-        course = db.course.find_one({"_id":ObjectId(request.json["courseId"])}) 
-        return jsonify(course["materials"])
+        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        materialData = []
+        for material in materialCursor:
+            materialData.append(material["description"])
+        return jsonify(materialData)
     else:
         abort(400)
 
