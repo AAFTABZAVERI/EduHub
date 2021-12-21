@@ -51,9 +51,9 @@ export default function signup() {
                 return;
             }
         }
-        useEffect(() => {
-            document.getElementById("timer").innerHTML = count + " secs";
-        },[])
+        // useEffect(() => {
+        //     document.getElementById("timer").innerHTML = count + " secs";
+        // },[])
         
     return (
         <div>

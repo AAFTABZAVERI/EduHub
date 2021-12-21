@@ -1,0 +1,27 @@
+.title_div{
+    text-align: center;
+    border: 2px solid rgba(134, 132, 132, 0.466);
+    margin: 4%;
+    border-radius: 30px;
+}
+
+.main_container{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10%;
+    margin-right: 10%;
+    align-items: center;
+    border: 2px solid rgba(134, 132, 132, 0.466);
+    border-radius: 30px;
+}
+
+.prof_data{
+    margin-left: 8%;
+}
+
+.stud_data{
+
+}
+.textarea{
+    background-color: #65549e;
+}
