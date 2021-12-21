@@ -1,6 +1,6 @@
 from flask import *
 from flask_cors import CORS
-
+from datetime import datetime
 import pymongo
 
 from google.oauth2 import id_token
@@ -9,11 +9,15 @@ from google.auth.transport import requests
 import certifi
 import os
 from time import sleep
-from datetime import timedelta
+# from datetime import datetime
 
 from dotenv import load_dotenv
 load_dotenv()
 
+from services.instituteService import *
+from services.facultyService import *
+from services.studentService import *
+from services.fileUploadService import *
 
 from bson.objectid import ObjectId
 import certifi, random , math
@@ -27,134 +31,87 @@ db = client.Eduhub
 app = Flask(__name__)
 CORS(app)
 
-app.secret_key = os.getenv("APP_SECRET_KEY")
-app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
+# app.secret_key = os.getenv("APP_SECRET_KEY")
+# app.config['SESSION_COOKIE_NAME'] = 'google-login-session'
+# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=5)
+
+
 
 # -------------------------------------------------------------------------------------
 # ******************************API section starts here********************************
 #--------------------------------------------------------------------------------------
 
 
-#------------------------------- institute APIs----------------------------------
+#------------------------------- Institute APIs start----------------------------------
 
 @app.route('/add-institute', methods=["POST"])
 def addinstitute():
-    print(request.json)
-    db.institute.insert_one({
-            "instituteName": request.json['name'],
-            "description": request.json['description'],
-            "email": request.json['email'],
-            "professors": [],
-            "students": [],
-    })
-
-    return "Institute created"
+    serviceResponse = addinstituteService(request)
+    return serviceResponse
 
 @app.route('/institute-login', methods=["GET"])
 def institutelogin():
-    idinfo = None
-    while idinfo is None:
-        try:
-            idinfo = id_token.verify_oauth2_token(request.headers["Authorization"].split()[1], requests.Request(), "1029920867014-8l02s0sh2ossi9sa06u83e09o26elkpf.apps.googleusercontent.com")
-        except:
-            sleep(0.5)
-            pass
-
-    instituteEmail = idinfo["email"]
-    instituteData =  db.institute.find_one({"email": instituteEmail})
-    responseData = {"Id":str(instituteData["_id"]), "instituteName":instituteData["instituteName"], "instituteDescription":instituteData["description"]}
-    return jsonify(responseData)
-
+    serviceResponse = instituteloginService()
+    return serviceResponse
 
 @app.route('/institute-students/<id>', methods=["GET", "POST", "DELETE", "PATCH"])
 def institutestudents(id):
-    if request.method == "GET":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        print("data sent")
-        return jsonify(instituteData["students"])
-
-    elif request.method == "POST":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        studentlist = []
-        for oldstudent in instituteData["students"]:
-            studentlist.append(oldstudent)
-
-        for newstudent in request.json["students"]:
-            if not newstudent in studentlist:
-                studentlist.append(newstudent)
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"students": studentlist}})
-
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["students"])
-
-    elif request.method == "DELETE":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        studentlist = []
-        for oldstudent in instituteData["students"]:
-            studentlist.append(oldstudent)
-
-        for removestudent in request.json["students"]:
-            if removestudent in studentlist:
-                studentlist.remove(removestudent)
-
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"students": studentlist}})
-        
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["students"])
-
-    else:
-        abort(400)
-
+    serviceResponse = institutestudentsService(id, request)
+    return serviceResponse
 
 @app.route('/institute-professors/<id>', methods=["GET", "POST", "DELETE"])
 def instituteprofessor(id):
+    serviceResponse = instituteprofessorService(id, request)
+    return serviceResponse
 
-    if request.method == "GET":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["professors"])
+#------------------------------- institute APIs End----------------------------------
 
-    elif request.method == "POST":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        professorslist = []
-        for oldprofessor in instituteData["professors"]:
-            professorslist.append(oldprofessor)
 
-        for newprofessor in request.json["professors"]:
-            if not newprofessor in professorslist:
-                professorslist.append(newprofessor)
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"professors": professorslist}})
 
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["professors"])
 
-    elif request.method == "DELETE":
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        professorslist = []
-        for oldprofessor in instituteData["professors"]:
-            professorslist.append(oldprofessor)
+#------------------------------- Faculty APIs Start---------------------------
+@app.route('/faculty-classroom/<id>', methods=["GET", "POST", "DELETE"])
+def facultyClassroom(id):
+    serviceResponse = facultyClassroomService(id, request)
+    return serviceResponse 
 
-        for removeprofessor in request.json["professors"]:
-            if removeprofessor in professorslist:
-                professorslist.remove(removeprofessor)
+@app.route('/file-upload', methods=["GET", "POST", "DELETE"])
+def fileUpload():
+    serviceResponse = fileUploadService(request.files['file'])
+    print(serviceResponse)
+    return "uploaded"
+ 
 
-        db.institute.update_one(
-                    {"_id": ObjectId(id)},
-                    {"$set": {"professors": professorslist}})
-        
-        instituteData = db.institute.find_one({"_id" : ObjectId(id)})
-        return jsonify(instituteData["professors"])
+#------------------------------- Faculty APIs End---------------------------
 
-    else:
-        abort(400)
 
-#------------------------------- Faculty APIs---------------------------
+
+
+#------------------------------- Students APIs Start---------------------------
+
+
+@app.route('/student-class/<id>', methods=["GET", "POST","DELETE"])
+def studentClasses(id):
+    serviceResponse = studentCourseService(id,request)
+    return serviceResponse
+
+@app.route('/student-assignment/<id>', methods=["GET", "POST","DELETE"])
+def studentAssignment(id):
+    serviceResponse = studentAssignmentService(id,request)
+    return serviceResponse
+
+@app.route('/student-quiz/<id>', methods=["GET", "POST","DELETE"])
+def studentQuiz(id):
+    serviceResponse = studentQuizService(id,request)
+    return serviceResponse
+
+@app.route('/student-material/<id>', methods=["GET", "POST","DELETE"])
+def studentMaterial(id):
+    serviceResponse = studentMaterialService(id,request)
+    return serviceResponse
+#------------------------------- Students APIs End---------------------------
+
+
 
 
 
@@ -184,10 +141,10 @@ def tokenApi():
   
     return f'Token Authinciated'
 
-#------------------------------ Student APIs ------------------------------------
 @app.route('/home', methods=["GET", "POST"])
 #@login_required
 def home():
+    randomlist =[]
     if request.method == "GET":
         cursor = db.clasroom.find({})
         dataArr = []
