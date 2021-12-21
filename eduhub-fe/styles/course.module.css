@@ -1,0 +1,88 @@
+.left {
+    padding-left: 8rem;
+    float: left;
+    width: 50%;
+  }
+  .right{
+    padding-left: 8rem;
+    float:right;
+    width: 50%;
+  }
+
+  .card1, .card2 {
+    margin: 1rem;
+    width: 40%;
+    padding-top: 15%;
+    text-align: center;
+    float: left;
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    min-width: 30%;
+    min-height: 45vh;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 0.2);
+  }
+  .card1{
+    background-color: #4b378eda;
+    padding-top: 0px;
+  }
+  .card2{
+    background-color: #29aae6cc;
+    padding-top: 0px;
+  }
+.card1:hover,.card2:hover {
+  cursor: pointer;
+}
+
+.card1 > p, .card2 > p{
+  text-align: left;
+  margin-left: 10%;
+}
+.p:hover{
+  cursor: pointer;
+}
+.card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.heading{
+  border-radius: 10px;
+  margin: 3% 5%;
+  padding: 0.5%;
+  background-color: hsla(15, 87%, 64%, 0.884);
+   text-align: center;
+   color: #ffffff;
+   box-shadow: 8px 8px 10px rgb(0 0 0 / 0.2);
+}
+ .chapter{
+     margin-left: 4%;
+     margin-right: 4%;
+     width: 50%;
+ } 
+ .p{
+    margin-left: 6%;
+ }
+
+ .add{
+   color: #F37A51;
+   margin-left: 10%;
+   border: none;
+   background-color: transparent;
+ }
+
+ .btn{
+   background-color: #F37A51;
+   border: none;
+   color: white;
+   font-size: 30px;
+   padding: 10px 22px;
+   border-radius: 60%;
+   margin-left: 390%;
+   margin-bottom: 8%;
+ }
