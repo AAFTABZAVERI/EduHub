@@ -104,7 +104,6 @@ def facultyMaterialService(id,request):
 
         facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
         # courseId = request.json["courseId"]
-       
         # assignmentTitle = request.json["name"]
         # serviceResponse = fileUploadService(request.files['file'])
         # print(serviceResponse)
