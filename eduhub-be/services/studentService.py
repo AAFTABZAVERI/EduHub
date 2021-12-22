@@ -119,30 +119,31 @@ def  studentAssignmentService(id,request):
 
 def  studentQuizService(id,request):
     if request.method == "GET":
-        QuizCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        
+        quizCursor = db.quiz.find({"courseId":request.json["courseId"]})
         quizData = []
-        for quiz in QuizCursor:
-            quizData.append(quiz["description"])
+        for quiz in quizCursor:
+            quizData.append(quiz["name"],quiz["link"])
         return jsonify(quizData)
 
-    elif request.method == "POST":
-        deadline = request.json["deadline"]
-        date_time_obj = datetime. strptime(deadline, '%d/%m/%y %H:%M:%S')
-        now = datetime.now()
-        print(now)
-        if now > date_time_obj:
-            print("NOOOO")
-            # late submission
-            # 
-            # 
-        else:
-            # in time submission 
-            # 
-            # 
-            print("yesss")
-        return "-"
-    else:
-        abort(400)
+    # elif request.method == "POST":
+    #     deadline = request.json["deadline"]
+    #     date_time_obj = datetime. strptime(deadline, '%d/%m/%y %H:%M:%S')
+    #     now = datetime.now()
+    #     print(now)
+    #     if now > date_time_obj:
+    #         print("NOOOO")
+    #         # late submission
+    #         # 
+    #         # 
+    #     else:
+    #         # in time submission 
+    #         # 
+    #         # 
+    #         print("yesss")
+    #     return "-"
+    # else:
+    #     abort(400)
 
 def studentMaterialService(id,request):
     if request.method == "GET":

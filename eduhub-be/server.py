@@ -91,6 +91,12 @@ def facultyAssignment(id):
 def facultyMaterial(id):
     serviceResponse = facultyMaterialService(id, request)
     return serviceResponse
+
+@app.route('/faculty-quiz/<id>', methods=["GET", "POST", "DELETE"])
+def facultyQuiz(id):
+    serviceResponse = facultyQuizService(id, request)
+    return serviceResponse
+
 #------------------------------- Faculty APIs End---------------------------
 
 

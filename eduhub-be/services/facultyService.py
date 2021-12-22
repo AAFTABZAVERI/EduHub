@@ -86,7 +86,7 @@ def facultyAssignmentService(id,request):
             assigmetData.append(assignment["description"])
         return jsonify(assigmetData)
 
-    if request.method == "POST":
+    elif request.method == "POST":
 
         facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
         # courseId = request.json["courseId"]
@@ -109,6 +109,17 @@ def facultyAssignmentService(id,request):
             assigmetData.append(assignment["description"])
         return jsonify(assigmetData)
 
+    elif request.method == "DELETE":
+        assignmentId = request.json["assignmentId"]
+        db.assignmnet.delete_one({"_id": ObjectId(assignmentId)})
+
+        db.course.update_one(
+            { "_id":  ObjectId(request.json["courseId"])},
+            { "$pull": {"assignments" :ObjectId(assignmentId)}}
+        )
+        return "deleted"
+    
+
 def facultyMaterialService(id,request):
     facultyId = id
     # courseId = request.json["courseId"]
@@ -120,7 +131,7 @@ def facultyMaterialService(id,request):
             materialData.append(material["description"])
         return jsonify(materialData)
 
-    if request.method == "POST":
+    elif request.method == "POST":
 
         facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
         # courseId = request.json["courseId"]
@@ -141,6 +152,68 @@ def facultyMaterialService(id,request):
         for material in materialCursor:
             materialData.append(material["description"])
         return jsonify(materialData)
+
+    elif request.method == "DELETE":
+        materialId = request.json["materialId"]
+        db.material.delete_one({"_id": ObjectId(materialId)})
+
+        db.course.update_one(
+            { "_id":  ObjectId(request.json["courseId"])},
+            { "$pull": {"materials" :ObjectId(materialId)}}
+        )
+        return "deleted"
+
+def facultyQuizService(id,request):
+    # facultyId = id
+    # courseId = request.json["courseId"]
+    if request.method == "GET":
+    
+        quizCursor = db.quiz.find({"courseId":request.json["courseId"]})
+        quizData = []
+        for quiz in quizCursor:
+            quizData.append(quiz["name"],quiz["link"])
+        return jsonify(quizData)
+    
+    elif request.method == "POST":
+
+        # facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        # # courseId = request.json["courseId"]
+        # # assignmentTitle = request.json["name"]
+        # # serviceResponse = fileUploadService(request.files['file'])
+        # # print(serviceResponse)
+        insertedmaterial = db.assignment.insert_one({
+                # "fileName": serviceResponse["fileName"],
+                "title":request.json["title"],
+                # "description": request.json["materialDesc"],
+                "courseId": request.json["courseId"],
+                "link":request.json["link"]
+                # "url":serviceResponse["url"],
+                # "uuidFileNmae":serviceResponse["uuidFileName"],
+                })
+
+        quizCursor = db.quiz.find({"courseId":request.json["courseId"]})
+        quizData = []
+        for quiz in quizCursor:
+            quizData.append(quiz["name"],quiz["link"])
+        return jsonify(quizData)
+
+    elif request.method == "DELETE":
+        quizId = request.json["quizId"]
+        db.quiz.delete_one({"_id": ObjectId(quizId)})
+
+        db.course.update_one(
+            { "_id":  ObjectId(request.json["courseId"])},
+            { "$pull": {"quiz" :ObjectId(quizId)}}
+        )
+        return "deleted"
+
+
+
+
+
+
+
+
 
     # print(data.count())
 
