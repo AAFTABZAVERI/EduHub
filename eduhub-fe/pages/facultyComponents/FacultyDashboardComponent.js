@@ -36,7 +36,7 @@ function FacultyDashboardComponent(props) {
   function openCourse(courseId){
     console.log(courseId)
     sessionStorage.setItem("courseId", courseId)
-    Router.push('/course')
+    Router.push('/faculty-course')
   }
 
     return (

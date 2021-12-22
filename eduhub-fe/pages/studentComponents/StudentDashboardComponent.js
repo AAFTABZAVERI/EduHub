@@ -31,11 +31,17 @@ function StudentDashboardComponent(props) {
     
   }
 
+  function openCourse(courseId){
+    console.log(courseId)
+    sessionStorage.setItem("courseId", courseId)
+    Router.push('/course')
+  }
+
     return (
       <div className={styles.gridItem}>
           <div className={styles.class}>
             <img className={styles.subjectImg} src="/subject1.jpg" />
-            <div className={styles.other}>
+            <div className={styles.other} onClick={() => openCourse(props.Id)}>
               <p className={styles.title}> {props.name} </p>
               <p className={styles.prof}> {props.faculty} </p>
               <div className={styles.desc}>

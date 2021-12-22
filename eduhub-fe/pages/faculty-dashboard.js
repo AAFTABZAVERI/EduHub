@@ -46,6 +46,8 @@ export default function Dashboard() {
         .then(function (response) {
           console.log(response.data)
           setprofessorCourse(response.data)
+          var modal = document.getElementById("myModal");
+          modal.style.display = "none";
         })
         .catch(function (error) {
           console.log(error);

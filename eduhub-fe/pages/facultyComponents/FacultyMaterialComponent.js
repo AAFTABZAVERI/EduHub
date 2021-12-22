@@ -1,5 +1,5 @@
 import styles from '../../styles/course.module.css';
-import mcStyle from './MaterialComponent.module.css'
+import fmcStyle from './FacultyMaterialComponent.module.css'
 import axios from 'axios';
 import Router  from 'next/router';
 
@@ -37,9 +37,9 @@ function MaterialComponent(props) {
         <div>
             <p className={styles.p} onClick={() => openMaterialModal(props.Id)}> {props.title}</p>
 
-            <div id={props.Id+"-myModal"} class={mcStyle.modal}>
-                <div class={mcStyle.modalContent}>
-                    <span class={mcStyle.close} onClick={() => closeMaterialModal(props.Id)}>&times;</span>
+            <div id={props.Id+"-myModal"} class={fmcStyle.modal}>
+                <div class={fmcStyle.modalContent}>
+                    <span class={fmcStyle.close} onClick={() => closeMaterialModal(props.Id)}>&times;</span>
                     <h3>{props.title}</h3>
                     <p>{props.description}</p>
                     <hr></hr>

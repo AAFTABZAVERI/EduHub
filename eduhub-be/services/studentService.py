@@ -147,10 +147,11 @@ def  studentQuizService(id,request):
 
 def studentMaterialService(id,request):
     if request.method == "GET":
-        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        CourseId = request.args.get("courseId")
+        materialCursor = db.material.find({"courseId" : CourseId})
         materialData = []
         for material in materialCursor:
-            materialData.append(material["description"])
+            materialData.append({"Id": str(material["_id"]), "title" : material["title"], "description": material["description"], "fileName" : material["fileName"], "url": material["url"] })
         return jsonify(materialData)
     else:
         abort(400)
