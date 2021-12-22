@@ -115,31 +115,45 @@ export default function admin(){
             </div>
             <div className={styles.main_container}>
                 <div className={styles.prof_data}>
-                    <h2>Professor Data</h2>
-                    <div>
-                        {professors && professors.map((professor)=> 
-                            <div>
-                                {professor}
-                            </div>
-                        )}
+                    <div className={styles.prof_title}>
+                        <h2>Professor Data</h2>
+                        <h5>Add professor's E-mail ID</h5>
                     </div>
-                    <textarea className={styles.textarea} rows="2" cols="25" placeholder="For multiple data add comma-separated values" onChange={(e) => setformProfessors(e.target.value)}></textarea><br/>
-                    <button onClick={addProfessors}> Add Professor/s </button>
-                    <button onClick={removeProfessors}> Remove Professor/s</button>
+                    <div className={styles.textfield}>
+                        <textarea className={styles.textarea} rows="2" cols="25" placeholder="For multiple data add comma-separated values" onChange={(e) => setformProfessors(e.target.value)}></textarea><br/>
+                        <div className={styles.btn_section}>
+                        <button className={styles.button1} onClick={addProfessors}> Add </button>
+                        <button className={styles.button2} onClick={removeProfessors}> Remove</button>
+                        </div>
+                    </div>
+                        <div className={styles.content}>
+                            <p style={{"text-align":"center","text-decoration":"underline"}}>List of Professors</p>
+                            {professors && professors.map((professor)=> 
+                                    <p className={styles.professor}>{professor}</p>
+                            )}
+                        </div>
                 </div>
+               
+                
                 
                 <div className={styles.stu_data}>
-                    <h2>Student Data</h2>
-                    <div>
+                    <div className={styles.stu_title}>
+                        <h2>Student Data</h2>
+                        <h5>Add Student's E-mail ID</h5>
+                    </div>
+                    <div className={styles.stu_textfield}>
+                        <textarea className={styles.stu_textarea} rows="5" cols="25" placeholder="For multiple data add comma-separated values" onChange={(e) => setformStudents(e.target.value)}></textarea><br/>
+                        <div className={styles.stu_btn}>
+                            <button className={styles.button1} onClick={addStudents}> Add  </button>
+                            <button className={styles.button2} onClick={removeStudents}> Remove </button>
+                        </div>
+                    </div>
+                    <div className={styles.stu_content}>
+                    <p style={{"text-align":"center","text-decoration":"underline"}}>List of Students</p>
                         {students && students.map((student)=> 
-                            <div>
-                                {student}
-                            </div>
+                                <p className={styles.student}>{student}</p>
                         )}
                     </div>
-                    <textarea rows="5" cols="25" placeholder="For multiple data add comma-separated values" onChange={(e) => setformStudents(e.target.value)}></textarea><br/>
-                    <button onClick={addStudents}> Add student/s </button>
-                    <button onClick={removeStudents}> Remove student/s</button>
                 </div>
             </div>
         </div>
