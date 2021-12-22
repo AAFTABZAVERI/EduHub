@@ -2,6 +2,7 @@ import style from '../../styles/Home.module.css';
 import styles from '../../styles/dashboard.module.css';
 import fdcStyle from './FacultyDashboardComponent.module.css'
 import Router from 'next/router'
+import axios from 'axios';
 
 
 function FacultyDashboardComponent(props) {

@@ -67,6 +67,7 @@ def facultyClassroomService(id, request):
             { "$pull": {"courses" :ObjectId(courseId)}}
         )
 
+        return f"deleted"
         # db.student.update_one(
         #     { "_id": ObjectId(id)},
         #     { "$pull": {"courses" : ObjectId(request.json["courseId"])}}
