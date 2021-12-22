@@ -19,34 +19,44 @@ def facultyClassroomService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : facultyObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"], "description" : courses["description"], "courseCode": courses["courseCode"]})
         
         return jsonify(courseData)
     
     elif request.method == "POST":
-        instituteId = request.json["istituteId"]
+        instituteId = request.json["instituteId"]
         courseName = request.json["courseName"]
         courseDesc = request.json["courseDesc"]
+        facultyName = request.json["facultyName"]
         
         randomCourseCode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         
         while not(db.temp.find_one({"_id" : ObjectId("61bf9bf5dfb26b0115adc184"), "students" : {'$in' : [randomCourseCode]}})):
             db.temp.update_one({"_id": ObjectId("61bf9bf5dfb26b0115adc184")}, {'$addToSet' : {"students" : randomCourseCode}})
         
-        insertedCourse = db.course.insert_one({
+        insertedCourse = db.course.insert({
             "name": courseName,
             "description": courseDesc,
             "courseCode": randomCourseCode,
             "instituteId": instituteId,
             "facultyId": facultyId,
+            "facultyName": facultyName,
             "students": [],
             "materials" : [],
             "assignments": [],
             "quiz" : []
             })
 
-        db.faculty.update_one({"_id": ObjectId(facultyId)}, {"$addToSet" : {"courses": insertedCourse}})
+        db.faculty.update({"_id": ObjectId(facultyId)}, {"$addToSet" : {"courses": insertedCourse}})
         
+        facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        courseCursor =  db.course.find({"_id" : {"$in" : facultyObject["courses"]}})
+        courseData = []
+        for courses in courseCursor:
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"],"description" : courses["description"], "courseCode": courses["courseCode"]})
+        
+        print(courseData)
+        return jsonify(courseData)
 
     elif request.method == "DELETE":
         courseId = request.json["courseId"]

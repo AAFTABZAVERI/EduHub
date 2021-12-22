@@ -32,20 +32,37 @@ export default function Dashboard() {
     modal.style.display = "none";
   }
 
-  let propdata = {
-    "name" : "Enterprice Computing",
-    "faculty":"pm jatt", 
-    "Id":"23r534hhv2345hv25",
-    "description" : "This is the sample description"
+  function addCourse(){
+    var courseName = document.getElementById("CourseName").value;
+    var courseDescription = document.getElementById("CourseDescription").value;
+
+    axios.post('http://127.0.0.1:5000/faculty-classroom/'+sessionStorage.getItem("Id"), {
+          "instituteId" : sessionStorage.getItem("instituteId"),
+          "facultyName": sessionStorage.getItem("name"),
+          "courseName" : courseName,
+          "courseDesc" : courseDescription
+        })
+        .then(function (response) {
+          console.log(response.data)
+          setprofessorCourse(response.data)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
   }
+
   return (
     <div className={style.container}>
       <NavBar />
       <div className={styles.gridContainer}>
-        <FacultyDashboardComponent name={propdata.name} faculty={propdata.faculty} id={propdata.Id} description={propdata.description}/>
+        {professorCourse ? professorCourse.map((course) => 
+        <FacultyDashboardComponent name={course.name} faculty={course.faculty} id={course.Id} description={course.description}/> ) 
+        : 
+        <div> No course Available </div>}
       </div>
       <div>
-        <button className={styles.addButtonCss} onClick={addButton} >+</button>
+        <button onClick={addButton} >+</button>
       </div>
       <div>
         <div id="myModal" className= {styles.modal}>
@@ -53,10 +70,10 @@ export default function Dashboard() {
           <span className={styles.close} onClick={addButtonClose}>&times;</span>
             <div>
               <p style={{display:"inline-block", marginRight:"5px"}}>Course Name : </p>
-              <input type="text" name='Course Name'></input><br></br>
+              <input type="text" name='CourseName' id='CourseName'></input><br></br>
               <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p>
-              <input type="text" name='Course Description'></input><br></br>
-              <button className={styles.addCourseButtonCss}>Add Course</button>
+              <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br>
+              <button onClick={addCourse}>Add Course</button>
             </div>
           </div>
         </div>
