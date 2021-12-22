@@ -62,18 +62,18 @@ export default function Dashboard() {
         <div> No course Available </div>}
       </div>
       <div>
-        <button onClick={addButton} >+</button>
+        <button onClick={addButton} className={styles.btnAdd}> + </button>
       </div>
       <div>
         <div id="myModal" className= {styles.modal}>
           <div className={styles.modalContent}>
           <span className={styles.close} onClick={addButtonClose}>&times;</span>
             <div>
-              <p style={{display:"inline-block", marginRight:"5px"}}>Course Name : </p>
-              <input type="text" name='CourseName' id='CourseName'></input><br></br>
-              <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p>
-              <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br>
-              <button onClick={addCourse}>Add Course</button>
+              <p style={{display:"inline-block", marginRight:"5px"}}>Course Name : </p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="text" name='CourseName' id='CourseName' className={styles.txt}></input><br></br>
+              <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p> &nbsp;&nbsp;
+              <input type="text" name='CourseDescription' id='CourseDescription' className={styles.txt}></input><br></br>
+              <button onClick={addCourse} className={styles.btn}>Add Course</button>
             </div>
           </div>
         </div>

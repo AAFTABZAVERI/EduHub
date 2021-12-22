@@ -68,7 +68,7 @@ export default function Dashboard() {
       </div>
 
       <div>
-        <button onClick={addButton} >+</button>
+        <button onClick={addButton} className={styles.btnAdd}>+</button>
       </div>
       <div>
         <div id="myModal" className= {styles.modal}>
@@ -76,10 +76,10 @@ export default function Dashboard() {
           <span className={styles.close} onClick={addButtonClose}>&times;</span>
             <div>
               <p style={{display:"inline-block", marginRight:"5px"}}>Course Code : </p>
-              <input type="text" name='CoursCode' id='CourseCode'></input><br></br>
+              <input type="text" name='CoursCode' id='CourseCode' className={styles.txt}></input><br></br>
               {/* <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p> */}
               {/* <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br> */}
-              <button onClick={addCourse}>Add Course</button>
+              <button onClick={addCourse} className={styles.btn}>Add Course</button>
             </div>
           </div>
         </div>
