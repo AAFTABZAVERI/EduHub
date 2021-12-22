@@ -3,10 +3,11 @@ import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import NavBar from '../components/navbar';
 import styles from '../styles/course.module.css';
+import MaterialComponent from './facultyComponents/MaterialComponent';
 
 export default function course() {
 
-    const [courseData, setcourseData] = useState(0)
+    const [materialData, setmaterialData] = useState(0)
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/faculty-material/'+sessionStorage.getItem("Id"),{
@@ -15,8 +16,8 @@ export default function course() {
             }
         })
         .then(function (response) {
-          setcourseData(response.data)
-          console.log(response.data)
+            setmaterialData(response.data)
+            console.log(response.data)
         })
         .catch(function (error) {
           console.log(error);
@@ -63,8 +64,10 @@ export default function course() {
                 'Content-Type': 'multipart/form-data',
             }})
         .then(function (response) {
-          setcourseData(response.data)
-          console.log(response.data)
+            setmaterialData(response.data)
+            console.log(response.data)
+            let materialModal = document.getElementById("materialModal")
+            materialModal.style.display = "none"
         })
         .catch(function (error) {
           console.log(error);
@@ -85,9 +88,9 @@ export default function course() {
                 <div className={styles.left}>
                     <div className={styles.chapter}>
                         <h2> Course Materials</h2>
-                        <p className={styles.p}> Topic 1: any kind of description</p>
-                        <p className={styles.p}> Topic 2: any kind of description</p>
-                        <p className={styles.p}> Topic 3: any kind of description</p>
+                        {materialData ? materialData.map((material) => ( 
+                            <MaterialComponent Id={material.Id} title={material.title} description={material.description} fileName={material.fileName} url={material.url}></MaterialComponent>
+                        )): <div>Fettching data..</div>}
                         <button className={styles.add} onClick={() => modelOpen("material")}>+ Add Topic</button>
                         
                         <hr />

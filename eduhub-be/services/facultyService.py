@@ -92,7 +92,7 @@ def facultyAssignmentService(id,request):
         # assignmentTitle = request.json["name"]
         # serviceResponse = fileUploadService(request.files['file'])
         # print(serviceResponse)
-        insertedAssignment = db.assignment.insert_one({
+        insertedAssignment = db.assignment.insert({
                 # "fileName": serviceResponse["fileName"],
                 "description": assignmentDesc,
                 "courseId": request.json["courseId"],
@@ -109,29 +109,21 @@ def facultyAssignmentService(id,request):
 
 def facultyMaterialService(id,request):
     facultyId = id
-    # courseId = request.json["courseId"]
     if request.method == "GET":
-        print(request.args.get("courseId"))
+        CourseId = request.args.get("courseId")
 
-        materialCursor = db.assignment.find({"courseID" : ObjectId(request.args.get("courseId"))})
+        materialCursor = db.material.find({"courseId" : CourseId})
         materialData = []
         for material in materialCursor:
-            materialData.append({"title" : material["title"] })
+            materialData.append({"Id": str(material["_id"]), "title" : material["title"], "description": material["description"], "fileName" : material["fileName"], "url": material["url"] })
         return jsonify(materialData)
 
     if request.method == "POST":
 
         fileUploadData = fileUploadService(request.files['file'])
         data = dict(request.form)
-        print(data['materialName'])
-       
  
-        # facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
-        # courseId = request.json["courseId"]
-        # assignmentTitle = request.json["name"]
-        # serviceResponse = fileUploadService(request.files['file'])
-        # print(serviceResponse)
-        insertedmaterial = db.material.insert_one({
+        insertedmaterial = db.material.insert({
                 "title": data["materialName"],
                 "description": data["materialDescription"],
                 "courseId": data["courseId"],
@@ -140,11 +132,11 @@ def facultyMaterialService(id,request):
                 "uuidFileNmae":fileUploadData["uuidFileName"],
         })
 
-        db.course.update_one({"_id": ObjectId(data["courseId"])}, {"$addToSet": {"assignments": insertedmaterial}})
-        materialCursor = db.assignment.find({"courseID" : ObjectId(data["courseId"])})
+        db.course.update({"_id": ObjectId(data["courseId"])}, {"$addToSet": {"materials": insertedmaterial}})
+        materialCursor = db.material.find({"courseId" : data["courseId"]})
         materialData = []
         for material in materialCursor:
-            materialData.append({"title" : material["title"] })
+            materialData.append({"Id": str(material["_id"]), "title" : material["title"], "description": material["description"], "fileName" : material["fileName"], "url": material["url"] })
         return jsonify(materialData)
 
     # print(data.count())
