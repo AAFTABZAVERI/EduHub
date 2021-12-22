@@ -34,8 +34,15 @@ export default function Home() {
       }
     })
     .then(function (response) {
-      console.log(response);
-      Router.push('/dashboard')
+      sessionStorage.setItem("Id", response.data[0].Id)
+      sessionStorage.setItem("instituteId", response.data[0].instituteId)
+      sessionStorage.setItem("user", response.data[0].user)
+      if(response.data[0].user == "faculty"){
+        Router.push('/faculty-dashboard')
+      }
+      else{
+        Router.push('/dashboard')
+      }
     })
     .catch(function (error) {
       console.log(error);

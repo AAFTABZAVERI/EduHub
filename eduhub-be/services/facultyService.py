@@ -8,7 +8,7 @@ import random, string
 
 from dataObjects.instituteDataObject import *
 from dataObjects.connection import db
-
+from services.fileUploadService import *
 
 def facultyClassroomService(id, request):
     facultyId = id
@@ -19,14 +19,15 @@ def facultyClassroomService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : facultyObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"], "description" : courses["description"], "courseCode": courses["courseCode"]})
         
         return jsonify(courseData)
     
     elif request.method == "POST":
-        instituteId = request.json["istituteId"]
+        instituteId = request.json["instituteId"]
         courseName = request.json["courseName"]
         courseDesc = request.json["courseDesc"]
+        facultyName = request.json["facultyName"]
         
         randomCourseCode = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
         
@@ -39,14 +40,23 @@ def facultyClassroomService(id, request):
             "courseCode": randomCourseCode,
             "instituteId": instituteId,
             "facultyId": facultyId,
+            "facultyName": facultyName,
             "students": [],
             "materials" : [],
             "assignments": [],
             "quiz" : []
             })
 
-        db.faculty.update_one({"_id": ObjectId(facultyId)}, {"$addToSet" : {"courses": insertedCourse}})
+        db.faculty.update({"_id": ObjectId(facultyId)}, {"$addToSet" : {"courses": insertedCourse}})
         
+        facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        courseCursor =  db.course.find({"_id" : {"$in" : facultyObject["courses"]}})
+        courseData = []
+        for courses in courseCursor:
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"],"description" : courses["description"], "courseCode": courses["courseCode"]})
+        
+        print(courseData)
+        return jsonify(courseData)
 
     elif request.method == "DELETE":
         courseId = request.json["courseId"]
@@ -54,8 +64,74 @@ def facultyClassroomService(id, request):
 
     else:
         abort(400)
-        
-    
+
+def facultyAssignmentService(id,request):
+    facultyId = id
+    # courseId = request.json["courseId"]
+    if request.method == "GET":
+
+        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        assigmetData = []
+        for assignment in assignmentCursor:
+            assigmetData.append(assignment["description"])
+        return jsonify(assigmetData)
+
+    if request.method == "POST":
+
+        facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        # courseId = request.json["courseId"]
+        assignmentDesc = request.json["assignmentDesc"]
+        # assignmentTitle = request.json["name"]
+        # serviceResponse = fileUploadService(request.files['file'])
+        # print(serviceResponse)
+        insertedAssignment = db.assignment.insert_one({
+                # "fileName": serviceResponse["fileName"],
+                "description": assignmentDesc,
+                "courseId": request.json["courseId"],
+                # "url":serviceResponse["url"],
+                # "uuidFileNmae":serviceResponse["uuidFileName"],
+                "deadline" : request.json["deadline"]
+                })
+
+        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        assigmetData = []
+        for assignment in assignmentCursor:
+            assigmetData.append(assignment["description"])
+        return jsonify(assigmetData)
+
+def facultyMaterialService(id,request):
+    facultyId = id
+    # courseId = request.json["courseId"]
+    if request.method == "GET":
+
+        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        materialData = []
+        for material in materialCursor:
+            materialData.append(material["description"])
+        return jsonify(materialData)
+
+    if request.method == "POST":
+
+        facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        # courseId = request.json["courseId"]
+        # assignmentTitle = request.json["name"]
+        # serviceResponse = fileUploadService(request.files['file'])
+        # print(serviceResponse)
+        insertedmaterial = db.assignment.insert_one({
+                # "fileName": serviceResponse["fileName"],
+                "title":request.json["title"],
+                "description": request.json["materialDesc"],
+                "courseId": request.json["courseId"],
+                # "url":serviceResponse["url"],
+                # "uuidFileNmae":serviceResponse["uuidFileName"],
+                })
+
+        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        materialData = []
+        for material in materialCursor:
+            materialData.append(material["description"])
+        return jsonify(materialData)
+
     # print(data.count())
 
     # print(dir(data))
@@ -87,4 +163,4 @@ def facultyClassroomService(id, request):
             #     studentCourses.append(classCode)
             # db.student.update_one({"_id": ObjectId(studentID)}, {"$set": {"course": studentCourses}})
 
-    return f"sucess"
+    return "sucess"
