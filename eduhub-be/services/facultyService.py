@@ -1,4 +1,5 @@
 from flask import jsonify, request, abort
+# from werkzeug.datastructures import ImmutableMultiDict
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -68,10 +69,6 @@ def facultyClassroomService(id, request):
         )
 
         return f"deleted"
-        # db.student.update_one(
-        #     { "_id": ObjectId(id)},
-        #     { "$pull": {"courses" : ObjectId(request.json["courseId"])}}
-        # )
 
     else:
         abort(400)
@@ -114,33 +111,40 @@ def facultyMaterialService(id,request):
     facultyId = id
     # courseId = request.json["courseId"]
     if request.method == "GET":
+        print(request.args.get("courseId"))
 
-        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        materialCursor = db.assignment.find({"courseID" : ObjectId(request.args.get("courseId"))})
         materialData = []
         for material in materialCursor:
-            materialData.append(material["description"])
+            materialData.append({"title" : material["title"] })
         return jsonify(materialData)
 
     if request.method == "POST":
 
-        facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        fileUploadData = fileUploadService(request.files['file'])
+        data = dict(request.form)
+        print(data['materialName'])
+       
+ 
+        # facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
         # courseId = request.json["courseId"]
         # assignmentTitle = request.json["name"]
         # serviceResponse = fileUploadService(request.files['file'])
         # print(serviceResponse)
-        insertedmaterial = db.assignment.insert_one({
-                # "fileName": serviceResponse["fileName"],
-                "title":request.json["title"],
-                "description": request.json["materialDesc"],
-                "courseId": request.json["courseId"],
-                # "url":serviceResponse["url"],
-                # "uuidFileNmae":serviceResponse["uuidFileName"],
-                })
+        insertedmaterial = db.material.insert_one({
+                "title": data["materialName"],
+                "description": data["materialDescription"],
+                "courseId": data["courseId"],
+                "fileName": fileUploadData["fileName"],
+                "url":fileUploadData["url"],
+                "uuidFileNmae":fileUploadData["uuidFileName"],
+        })
 
-        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        db.course.update_one({"_id": ObjectId(data["courseId"])}, {"$addToSet": {"assignments": insertedmaterial}})
+        materialCursor = db.assignment.find({"courseID" : ObjectId(data["courseId"])})
         materialData = []
         for material in materialCursor:
-            materialData.append(material["description"])
+            materialData.append({"title" : material["title"] })
         return jsonify(materialData)
 
     # print(data.count())

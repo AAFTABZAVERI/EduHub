@@ -45,6 +45,14 @@
   margin-top: 4px;
   margin-left: 35px;
 }
+
+.dotsDiv{
+ float: right;
+ position: relative;
+ left: -5%;
+ bottom: 20%;
+}
+
 .dots{
   width: 70px;
   margin-right: -28px;

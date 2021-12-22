@@ -17,17 +17,6 @@ export default function Home() {
     sessionStorage.setItem("tokenID", response.tokenId);
     sessionStorage.setItem("accessToken", response.accessToken);
 
-    // axios.post('http://127.0.0.1:5000/tokenApi', {
-    //   tokenId: response.tokenId,
-    // },)
-    // .then(function (response) {
-    //   console.log(response);
-    //   Router.push('/dashboard')
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
-
     axios.get('http://127.0.0.1:5000/tokenApi', {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("tokenID")}`

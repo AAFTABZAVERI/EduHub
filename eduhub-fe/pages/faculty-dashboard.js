@@ -4,6 +4,7 @@ import styles from '../styles/dashboard.module.css';
 import NavBar from '../components/navbar';
 import FacultyDashboardComponent from './facultyComponents/FacultyDashboardComponent';
 import axios from 'axios';
+import { Router } from 'next/router';
 // import Popup from '../components/modalpopup';
 
 
@@ -49,7 +50,6 @@ export default function Dashboard() {
         .catch(function (error) {
           console.log(error);
         });
-
   }
 
   return (

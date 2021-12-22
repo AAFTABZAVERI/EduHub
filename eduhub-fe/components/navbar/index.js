@@ -4,9 +4,13 @@ import styles from './navbar.module.css';
 
 export default function NavBar({user}) {
     const [name,setName] = useState(0);
+    const [User, setUser] = useState(0);
   useEffect(() => {
     if (window) { 
-      // set props data to session storage or local storage  
+      // set props data to session storage or local storage
+      if(sessionStorage.getItem('user') == 'faculty'){
+        setUser(1)
+      }
       setName(sessionStorage.getItem("name"));
     }
 }, []);
@@ -15,7 +19,7 @@ export default function NavBar({user}) {
             <div className={styles.navbar}>
                 <a href="dashboard"> Home </a>
                 <div className={styles.navCentered}>
-                    <a> EduHub Dashboard</a>
+                    {User ? <a style={{fontWeight: "bold"}}> EduHub Faculty Dashboard</a>: <a style={{fontWeight: "bold"}}> EduHub Dashboard</a>}
                 </div>
                 <div className={styles.navbarRight}>
                     <a>{name}</a>
