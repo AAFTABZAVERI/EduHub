@@ -40,8 +40,11 @@ export default function Home() {
       if(response.data[0].user == "faculty"){
         Router.push('/faculty-dashboard')
       }
-      else{
+      else if (response.data[0].user == "student") {
         Router.push('/dashboard')
+      } else {
+        alert("No user found in any institute with provided email")
+      }{
       }
     })
     .catch(function (error) {
