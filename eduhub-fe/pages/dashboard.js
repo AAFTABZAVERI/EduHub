@@ -8,16 +8,19 @@ import axios from 'axios';
 
 
 export default function Dashboard() {
-  const [professorCourse, setprofessorCourse] = useState(0)
+  const [studnetCourse, setstudnetCourse] = useState(0)
+  // console.log(sessionStorage.getItem("Id"))
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/faculty-classroom/'+sessionStorage.getItem("Id"))
+    console.log(sessionStorage.getItem("Id"))
+    axios.get('http://127.0.0.1:5000/student-class/'+sessionStorage.getItem("Id"))
         .then(function (response) {
-          setprofessorCourse(response.data)
-          console.log(professorCourse)
+          setstudnetCourse(response.data)
+          console.log(studnetCourse)
         })
         .catch(function (error) {
           console.log(error);
         });
+        console.log(studnetCourse)
   }, [])
 
   function addButton(){
@@ -33,18 +36,22 @@ export default function Dashboard() {
   }
 
   function addCourse(){
-    var courseName = document.getElementById("CourseName").value;
-    var courseDescription = document.getElementById("CourseDescription").value;
+    var courseCode = document.getElementById("CourseCode").value;
+    // var courseDescription = document.getElementById("CourseDescription").value;
 
-    axios.post('http://127.0.0.1:5000/faculty-classroom/'+sessionStorage.getItem("Id"), {
+    axios.post('http://127.0.0.1:5000/student-class/'+sessionStorage.getItem("Id"), {
           "instituteId" : sessionStorage.getItem("instituteId"),
-          "facultyName": sessionStorage.getItem("name"),
-          "courseName" : courseName,
-          "courseDesc" : courseDescription
+          // "facultyName": sessionStorage.getItem("name"),
+          "email":sessionStorage.getItem("email"),
+          // "courseName" : courseName,
+          // "courseDesc" : courseDescription,
+          "courseCode":courseCode
         })
         .then(function (response) {
           console.log(response.data)
-          setprofessorCourse(response.data)
+          var modal = document.getElementById("myModal");
+          modal.style.display = "none";
+          setstudnetCourse(response.data)
         })
         .catch(function (error) {
           console.log(error);
@@ -52,15 +59,18 @@ export default function Dashboard() {
 
   }
 
+  
+
   return (
     <div className={style.container}>
       <NavBar />
       <div className={styles.gridContainer}>
-        {professorCourse ? professorCourse.map((course) => 
+        {studnetCourse ? studnetCourse.map((course) => 
         <StudentDashboardComponent name={course.name} faculty={course.faculty} id={course.Id} description={course.description}/> ) 
         : 
         <div> No course Available </div>}
       </div>
+
       <div>
         <button onClick={addButton} >+</button>
       </div>
@@ -69,10 +79,10 @@ export default function Dashboard() {
           <div className={styles.modalContent}>
           <span className={styles.close} onClick={addButtonClose}>&times;</span>
             <div>
-              <p style={{display:"inline-block", marginRight:"5px"}}>Course Name : </p>
-              <input type="text" name='CourseName' id='CourseName'></input><br></br>
-              <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p>
-              <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br>
+              <p style={{display:"inline-block", marginRight:"5px"}}>Course Code : </p>
+              <input type="text" name='CoursCode' id='CourseCode'></input><br></br>
+              {/* <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p> */}
+              {/* <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br> */}
               <button onClick={addCourse}>Add Course</button>
             </div>
           </div>

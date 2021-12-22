@@ -4,7 +4,7 @@ import sdcStyle from './StudentDashboardComponent.module.css'
 import Router from 'next/router'
 
 
-function FacultyDashboardComponent(props) {
+function StudentDashboardComponent(props) {
     return (
       <div className={styles.gridItem}>
           <div className={styles.class}>
@@ -31,4 +31,4 @@ function FacultyDashboardComponent(props) {
     )
   }
   
-  export default FacultyDashboardComponent
+  export default StudentDashboardComponent
