@@ -57,7 +57,7 @@ export default function Dashboard() {
       <NavBar />
       <div className={styles.gridContainer}>
         {professorCourse ? professorCourse.map((course) => 
-        <FacultyDashboardComponent name={course.name} faculty={course.faculty} id={course.Id} description={course.description}/> ) 
+        <FacultyDashboardComponent name={course.name} faculty={course.faculty} Id={course.courseId} description={course.description}/> ) 
         : 
         <div> No course Available </div>}
       </div>

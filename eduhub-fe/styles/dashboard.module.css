@@ -48,6 +48,7 @@
 .dots{
   width: 70px;
   margin-right: -28px;
+  position: relative;
 }
 
 .other{

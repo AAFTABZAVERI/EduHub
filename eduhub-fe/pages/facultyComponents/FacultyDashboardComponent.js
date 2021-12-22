@@ -1,7 +1,26 @@
 import style from '../../styles/Home.module.css';
 import styles from '../../styles/dashboard.module.css';
+import fdcStyle from './FacultyDashboardComponent.module.css'
+import Router from 'next/router'
+
 
 function FacultyDashboardComponent(props) {
+
+  function threeDots(Id){
+      let modal = document.getElementById(Id+'-model')
+      modal.style.display = "block"
+  }
+
+  function closethreeDots(Id){
+      let modal = document.getElementById(Id+'-model')
+      modal.style.display = "none"
+  }
+
+  function deleteCourse(Id){
+     
+    Router.reload(window.location.pathname)
+  }
+
     return (
       <div className={styles.gridItem}>
           <div className={styles.class}>
@@ -14,10 +33,18 @@ function FacultyDashboardComponent(props) {
               </div>
             </div>
             <div>
-              <img className={styles.dots} src="/three-dots.png" />
+              <img className={styles.dots} src="/three-dots.png" onClick={() => threeDots(props.Id)}/>
+              <div id={props.Id+'-model'} className={fdcStyle.modal}>
+                <div className={fdcStyle.modalContent}>
+                  <span className={fdcStyle.close} onClick={() => closethreeDots(props.Id)}>&times;</span>
+                  <p>{props.name}</p>
+                  <button onClick={() => deleteCourse(props.Id)}> Delete course </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+          
+      </div>
     )
   }
   

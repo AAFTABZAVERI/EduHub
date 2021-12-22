@@ -1,5 +1,8 @@
 import style from '../../styles/Home.module.css';
 import styles from '../../styles/dashboard.module.css';
+import sdcStyle from './StudentDashboardComponent.module.css'
+import Router from 'next/router'
+
 
 function FacultyDashboardComponent(props) {
     return (
@@ -15,6 +18,13 @@ function FacultyDashboardComponent(props) {
             </div>
             <div>
               <img className={styles.dots} src="/three-dots.png" />
+              <div id={props.Id+'-model'} className={sdcStyle.modal}>
+                <div className={sdcStyle.modalContent}>
+                  <span className={sdcStyle.close} onClick={() => closethreeDots(props.Id)}>&times;</span>
+                  <p>{props.name}</p>
+                  <button onClick={() => deleteCourse(props.Id)}> Delete course </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
