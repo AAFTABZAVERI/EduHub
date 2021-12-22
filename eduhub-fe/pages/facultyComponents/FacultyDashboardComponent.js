@@ -37,7 +37,7 @@ function FacultyDashboardComponent(props) {
               <div id={props.Id+'-model'} className={fdcStyle.modal}>
                 <div className={fdcStyle.modalContent}>
                   <span className={fdcStyle.close} onClick={() => closethreeDots(props.Id)}>&times;</span>
-                  <p>{props.name}</p>
+                  <p>{props.name} {props.Id}</p>
                   <button onClick={() => deleteCourse(props.Id)}> Delete course </button>
                 </div>
               </div>
