@@ -17,8 +17,19 @@ function FacultyDashboardComponent(props) {
   }
 
   function deleteCourse(Id){
-    
-    Router.reload(window.location.pathname)
+    axios.delete('http://127.0.0.1:5000/faculty-classroom/'+sessionStorage.getItem("Id"),{
+      data:{
+        "courseId":Id
+      }
+    })
+    .then(function (response) {
+      Router.reload(window.location.pathname)
+      console.log(response.data)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    // Router.reload(window.location.pathname)
   }
 
     return (
