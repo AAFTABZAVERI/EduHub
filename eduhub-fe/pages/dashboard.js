@@ -15,12 +15,11 @@ export default function Dashboard() {
     axios.get('http://127.0.0.1:5000/student-class/'+sessionStorage.getItem("Id"))
         .then(function (response) {
           setstudnetCourse(response.data)
-          console.log(studnetCourse)
+          console.log(response.data)
         })
         .catch(function (error) {
           console.log(error);
         });
-        console.log(studnetCourse)
   }, [])
 
   function addButton(){
@@ -41,10 +40,7 @@ export default function Dashboard() {
 
     axios.post('http://127.0.0.1:5000/student-class/'+sessionStorage.getItem("Id"), {
           "instituteId" : sessionStorage.getItem("instituteId"),
-          // "facultyName": sessionStorage.getItem("name"),
           "email":sessionStorage.getItem("email"),
-          // "courseName" : courseName,
-          // "courseDesc" : courseDescription,
           "courseCode":courseCode
         })
         .then(function (response) {
@@ -66,7 +62,7 @@ export default function Dashboard() {
       <NavBar />
       <div className={styles.gridContainer}>
         {studnetCourse ? studnetCourse.map((course) => 
-        <StudentDashboardComponent name={course.name} faculty={course.faculty} id={course.Id} description={course.description}/> ) 
+        <StudentDashboardComponent name={course.name} faculty={course.faculty} Id={course.courseId} description={course.description}/> ) 
         : 
         <div> No course Available </div>}
       </div>
