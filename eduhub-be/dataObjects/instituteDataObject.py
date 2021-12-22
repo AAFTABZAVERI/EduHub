@@ -32,7 +32,7 @@ def instituteAddFacultyObject(id, professorEmail):
         "name" : "",
         "email" : professorEmail,
         "courses" : [],
-        "instituteID" : id
+        "instituteId" : id
     })
 
 def instituteRemoveFacultyObject(professorEmail):
@@ -43,7 +43,7 @@ def instituteAddStudentObject(id, studentEmail):
         "name" : "",
         "email" : studentEmail,
         "courses" : [],
-        "instituteID" : id
+        "instituteId" : id
     })
 
 def instituteRemoveStudentObject(studentEmail):

@@ -2,20 +2,18 @@ import { useState, useEffect } from 'react';
 import style from '../styles/Home.module.css';
 import styles from '../styles/dashboard.module.css';
 import NavBar from '../components/navbar';
-import StudentDashboardComponent from './studentComponents/StudentDashboardComponent';
+import FacultyDashboardComponent from './facultyComponents/FacultyDashboardComponent';
 import axios from 'axios';
 // import Popup from '../components/modalpopup';
 
 
 export default function Dashboard() {
-  const [studnetCourse, setstudnetCourse] = useState(0)
-  // console.log(sessionStorage.getItem("Id"))
+  const [professorCourse, setprofessorCourse] = useState(0)
   useEffect(() => {
-    console.log(sessionStorage.getItem("Id"))
-    axios.get('http://127.0.0.1:5000/student-class/'+sessionStorage.getItem("Id"))
+    axios.get('http://127.0.0.1:5000/faculty-classroom/'+sessionStorage.getItem("Id"))
         .then(function (response) {
-          setstudnetCourse(response.data)
-          console.log(response.data)
+          setprofessorCourse(response.data)
+          console.log(professorCourse)
         })
         .catch(function (error) {
           console.log(error);
@@ -35,19 +33,18 @@ export default function Dashboard() {
   }
 
   function addCourse(){
-    var courseCode = document.getElementById("CourseCode").value;
-    // var courseDescription = document.getElementById("CourseDescription").value;
+    var courseName = document.getElementById("CourseName").value;
+    var courseDescription = document.getElementById("CourseDescription").value;
 
-    axios.post('http://127.0.0.1:5000/student-class/'+sessionStorage.getItem("Id"), {
+    axios.post('http://127.0.0.1:5000/faculty-classroom/'+sessionStorage.getItem("Id"), {
           "instituteId" : sessionStorage.getItem("instituteId"),
-          "email":sessionStorage.getItem("email"),
-          "courseCode":courseCode
+          "facultyName": sessionStorage.getItem("name"),
+          "courseName" : courseName,
+          "courseDesc" : courseDescription
         })
         .then(function (response) {
           console.log(response.data)
-          var modal = document.getElementById("myModal");
-          modal.style.display = "none";
-          setstudnetCourse(response.data)
+          setprofessorCourse(response.data)
         })
         .catch(function (error) {
           console.log(error);
@@ -55,18 +52,15 @@ export default function Dashboard() {
 
   }
 
-  
-
   return (
     <div className={style.container}>
       <NavBar />
       <div className={styles.gridContainer}>
-        {studnetCourse ? studnetCourse.map((course) => 
-        <StudentDashboardComponent name={course.name} faculty={course.faculty} Id={course.courseId} description={course.description}/> ) 
+        {professorCourse ? professorCourse.map((course) => 
+        <FacultyDashboardComponent name={course.name} faculty={course.faculty} Id={course.courseId} description={course.description}/> ) 
         : 
         <div> No course Available </div>}
       </div>
-
       <div>
         <button onClick={addButton} >+</button>
       </div>
@@ -75,10 +69,10 @@ export default function Dashboard() {
           <div className={styles.modalContent}>
           <span className={styles.close} onClick={addButtonClose}>&times;</span>
             <div>
-              <p style={{display:"inline-block", marginRight:"5px"}}>Course Code : </p>
-              <input type="text" name='CoursCode' id='CourseCode'></input><br></br>
-              {/* <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p> */}
-              {/* <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br> */}
+              <p style={{display:"inline-block", marginRight:"5px"}}>Course Name : </p>
+              <input type="text" name='CourseName' id='CourseName'></input><br></br>
+              <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p>
+              <input type="text" name='CourseDescription' id='CourseDescription'></input><br></br>
               <button onClick={addCourse}>Add Course</button>
             </div>
           </div>

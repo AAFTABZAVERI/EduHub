@@ -7,6 +7,7 @@ import styles from '../styles/course.module.css';
 export default function course() {
     const [showModal, setShowModal] = useState(false);
     const [showTopicModal, setShowTopicModal] = useState(false);
+    // course[]
     return (
         <div>
             <NavBar />
