@@ -83,18 +83,20 @@ def facultyAssignmentService(id,request):
         assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
         assigmetData = []
         for assignment in assignmentCursor:
-            assigmetData.append(assignment["description"])
+            # assigmetData.append({"descriprion":assignment["description"],"url":assignment["url"],"deadline" : assignment["deadline"],"fileName":assignment["fileName"]})
+            assigmetData.append({"description":assignment["description"]})
+        
         return jsonify(assigmetData)
 
     elif request.method == "POST":
 
-        facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
+        # facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
         # courseId = request.json["courseId"]
-        assignmentDesc = request.json["assignmentDesc"]
+        assignmentDesc = request.json["description"]
         # assignmentTitle = request.json["name"]
         # serviceResponse = fileUploadService(request.files['file'])
         # print(serviceResponse)
-        insertedAssignment = db.assignment.insert_one({
+        insertedAssignment = db.assignment.insert({
                 # "fileName": serviceResponse["fileName"],
                 "description": assignmentDesc,
                 "courseId": request.json["courseId"],
@@ -102,7 +104,7 @@ def facultyAssignmentService(id,request):
                 # "uuidFileNmae":serviceResponse["uuidFileName"],
                 "deadline" : request.json["deadline"]
                 })
-
+        db.course.update_one({"_id" : ObjectId(request.json["courseId"])}, {'$addToSet' : {"assignments" : insertedAssignment}})
         assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
         assigmetData = []
         for assignment in assignmentCursor:
@@ -111,7 +113,9 @@ def facultyAssignmentService(id,request):
 
     elif request.method == "DELETE":
         assignmentId = request.json["assignmentId"]
-        db.assignmnet.delete_one({"_id": ObjectId(assignmentId)})
+
+        # db.assignmnet.delete_one({"_id": ObjectId(assignmentId)})
+        db.assignment.delete_one({"_id": ObjectId(assignmentId)})
 
         db.course.update_one(
             { "_id":  ObjectId(request.json["courseId"])},
@@ -138,7 +142,7 @@ def facultyMaterialService(id,request):
         # assignmentTitle = request.json["name"]
         # serviceResponse = fileUploadService(request.files['file'])
         # print(serviceResponse)
-        insertedmaterial = db.assignment.insert_one({
+        insertedmaterial = db.assignment.insert({
                 # "fileName": serviceResponse["fileName"],
                 "title":request.json["title"],
                 "description": request.json["materialDesc"],
@@ -146,7 +150,7 @@ def facultyMaterialService(id,request):
                 # "url":serviceResponse["url"],
                 # "uuidFileNmae":serviceResponse["uuidFileName"],
                 })
-
+       
         materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
         materialData = []
         for material in materialCursor:
@@ -171,7 +175,7 @@ def facultyQuizService(id,request):
         quizCursor = db.quiz.find({"courseId":request.json["courseId"]})
         quizData = []
         for quiz in quizCursor:
-            quizData.append(quiz["name"],quiz["link"])
+            quizData.append({"title":quiz["title"],"link":quiz["link"]})
         return jsonify(quizData)
     
     elif request.method == "POST":
@@ -181,7 +185,7 @@ def facultyQuizService(id,request):
         # # assignmentTitle = request.json["name"]
         # # serviceResponse = fileUploadService(request.files['file'])
         # # print(serviceResponse)
-        insertedmaterial = db.assignment.insert_one({
+        insertequiz = db.quiz.insert({
                 # "fileName": serviceResponse["fileName"],
                 "title":request.json["title"],
                 # "description": request.json["materialDesc"],
@@ -190,11 +194,12 @@ def facultyQuizService(id,request):
                 # "url":serviceResponse["url"],
                 # "uuidFileNmae":serviceResponse["uuidFileName"],
                 })
-
+        # quizzz = db.quiz.find_one({"courseId":request.json["courseId"]})
+        db.course.update_one({"_id" : ObjectId(request.json["courseId"])}, {'$addToSet' : {"quiz" : insertequiz}})
         quizCursor = db.quiz.find({"courseId":request.json["courseId"]})
         quizData = []
         for quiz in quizCursor:
-            quizData.append(quiz["name"],quiz["link"])
+             quizData.append({"title":quiz["title"],"link":quiz["link"]})
         return jsonify(quizData)
 
     elif request.method == "DELETE":
