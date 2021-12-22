@@ -120,7 +120,7 @@ export default function admin(){
                         <h5>Add professor's E-mail ID</h5>
                     </div>
                     <div className={styles.textfield}>
-                        <textarea className={styles.textarea} rows="2" cols="25" placeholder="For multiple data add comma-separated values" onChange={(e) => setformProfessors(e.target.value)}></textarea><br/>
+                        <textarea className={styles.textarea} rows="2" cols="25" placeholder=" For multiple data add comma-separated values" onChange={(e) => setformProfessors(e.target.value)}></textarea><br/>
                         <div className={styles.btn_section}>
                         <button className={styles.button1} onClick={addProfessors}> Add </button>
                         <button className={styles.button2} onClick={removeProfessors}> Remove</button>
@@ -142,7 +142,7 @@ export default function admin(){
                         <h5>Add Student's E-mail ID</h5>
                     </div>
                     <div className={styles.stu_textfield}>
-                        <textarea className={styles.stu_textarea} rows="5" cols="25" placeholder="For multiple data add comma-separated values" onChange={(e) => setformStudents(e.target.value)}></textarea><br/>
+                        <textarea className={styles.stu_textarea} rows="5" cols="25" placeholder=" For multiple data add comma-separated values" onChange={(e) => setformStudents(e.target.value)}></textarea><br/>
                         <div className={styles.stu_btn}>
                             <button className={styles.button1} onClick={addStudents}> Add  </button>
                             <button className={styles.button2} onClick={removeStudents}> Remove </button>

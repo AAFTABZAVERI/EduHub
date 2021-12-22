@@ -1,6 +1,7 @@
 from flask import *
 from flask_cors import CORS
 from datetime import datetime
+from pyasn1.type.univ import Null
 import pymongo
 
 from google.oauth2 import id_token
@@ -81,7 +82,15 @@ def fileUpload():
     print(serviceResponse)
     return "uploaded"
  
+@app.route('/faculty-assignment/<id>', methods=["GET", "POST", "DELETE"])
+def facultyAssignment(id):
+    serviceResponse = facultyAssignmentService(id, request)
+    return serviceResponse
 
+@app.route('/faculty-material/<id>', methods=["GET", "POST", "DELETE"])
+def facultyMaterial(id):
+    serviceResponse = facultyMaterialService(id, request)
+    return serviceResponse
 #------------------------------- Faculty APIs End---------------------------
 
 
@@ -128,19 +137,25 @@ def tokenApi():
             sleep(0.5)
             pass
 
-    data = db.user.find_one({"email": idinfo["email"]})
-    print(data)
+    data = db.student.find_one({"email": idinfo["email"]})
     if not (data):
-        db.user.insert_one({
-            "name": idinfo["name"],
-            "email": idinfo["email"],
-            "role": "student",
-            "image" : idinfo["picture"],
-            "courses" : []
-        })
-  
-    return f'Token Authinciated'
+        data = db.faculty.find_one({"email": idinfo["email"]})
+        if not (data):
+            return f"User Not registered in institute"
+        if not (data["name"]):
+            db.faculty.update_one({'email': idinfo["email"]}, {'$set' : {"name" : idinfo["name"]}})
+        userReturn = []
+        userReturn.append({"Id": str(data["_id"]), "instituteId": data["instituteId"], "user":"faculty"})
+        return jsonify(userReturn)
+        
+    if not (data["name"]):
+        db.faculty.update_one({'email': idinfo["email"]}, {'$set' : {"name" : idinfo["name"]}})
+    userReturn = []
+    userReturn.append({"Id": str(data["_id"]), "instituteId": data["instituteId"], "user":"student"})
+    return jsonify(userReturn) 
 
+
+#------------------------------- Old APIs---------------------------
 @app.route('/home', methods=["GET", "POST"])
 #@login_required
 def home():

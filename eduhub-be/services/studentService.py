@@ -19,7 +19,7 @@ def studentCourseService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"] ,"description" : courses["description"], "courseCode": courses["courseCode"]})
         return jsonify(courseData)
 
     elif request.method == "POST":
@@ -39,12 +39,9 @@ def studentCourseService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]), "name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]), "name":courses["name"], "faculty": courses["facultyName"], "description" : courses["description"], "courseCode": courses["courseCode"]})
         
         return jsonify(courseData)
-
-    
-
 
     elif request.method == "DELETE":     
         db.course.update_one(
@@ -61,17 +58,20 @@ def studentCourseService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"], "description" : courses["description"], "courseCode": courses["courseCode"]})
         return jsonify(courseData)
 
     else:
         abort(400)
 
 def  studentAssignmentService(id,request):
+    studentId = id
     if request.method == "GET":
-        course = db.course.find_one({"_id":ObjectId(request.json["courseId"])})     
-        # print (course)
-        return jsonify(course["assignments"])
+        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        assigmetData = []
+        for assignment in assignmentCursor:
+            assigmetData.append(assignment["description"])
+        return jsonify(assigmetData)
 
     elif request.method == "POST":
         deadline = request.json["deadline"]
@@ -79,23 +79,50 @@ def  studentAssignmentService(id,request):
         now = datetime.now()
         print(now)
         if now > date_time_obj:
-            print("NOOOO")
+            # print("NOOOO")
+            late = True
             # late submission
-            # 
+            #
             # 
         else:
+            late  = False
             # in time submission 
             # 
             # 
-            print("yesss")
-        return "-"
-    else:
-        abort(400)
+            # print("yesss")
+        
+
+
+        # facultyObject = db.faculty.find_one({"_id": ObjectId(assignmentId)})
+        # courseId = request.json["courseId"]
+        # assignmentTitle = request.json["name"]
+        # serviceResponse = fileUploadService(request.files['file'])
+        # print(serviceResponse)
+        submitdetail = db.submission.insert_one({
+                # "fileName": serviceResponse["fileName"],
+                "assignmentId":request.json["assignmentId"],
+                "studentId":ObjectId(id),
+                "title":request.json["title"],
+                "late":late
+                # "url":serviceResponse["url"],
+                # "uuidFileNmae":serviceResponse["uuidFileName"],
+                })
+
+    #     materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+    #     materialData = []
+    #     for material in materialCursor:
+    #         materialData.append(material["description"])
+    #     return jsonify(materialData)
+    # else:
+    #     abort(400)
 
 def  studentQuizService(id,request):
     if request.method == "GET":
-        course = db.course.find_one({"_id":ObjectId(request.json["courseId"])}) 
-        return jsonify(course["quizes"])
+        QuizCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        quizData = []
+        for quiz in QuizCursor:
+            quizData.append(quiz["description"])
+        return jsonify(quizData)
 
     elif request.method == "POST":
         deadline = request.json["deadline"]
@@ -118,10 +145,18 @@ def  studentQuizService(id,request):
 
 def studentMaterialService(id,request):
     if request.method == "GET":
-        course = db.course.find_one({"_id":ObjectId(request.json["courseId"])}) 
-        return jsonify(course["materials"])
+        materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        materialData = []
+        for material in materialCursor:
+            materialData.append(material["description"])
+        return jsonify(materialData)
     else:
         abort(400)
+
+
+
+
+
 
 
 
