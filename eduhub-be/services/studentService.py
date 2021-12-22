@@ -80,12 +80,12 @@ def  studentAssignmentService(id,request):
         print(now)
         if now > date_time_obj:
             # print("NOOOO")
-            late = True
+            flag = True
             # late submission
             #
             # 
         else:
-            late  = False
+            flag  = False
             # in time submission 
             # 
             # 
@@ -103,9 +103,10 @@ def  studentAssignmentService(id,request):
                 "assignmentId":request.json["assignmentId"],
                 "studentId":ObjectId(id),
                 "title":request.json["title"],
-                "late":late
+                "late":flag,
                 # "url":serviceResponse["url"],
                 # "uuidFileNmae":serviceResponse["uuidFileName"],
+                "submissionTime":now
                 })
 
     #     materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
