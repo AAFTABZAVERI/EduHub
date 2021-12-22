@@ -44,7 +44,6 @@ export default function Home() {
         Router.push('/dashboard')
       } else {
         alert("No user found in any institute with provided email")
-      }{
       }
     })
     .catch(function (error) {
