@@ -29,9 +29,9 @@ def studentCourseService(id, request):
         studentID = id
         studentEmail = request.json['email']
 
-        if(db.institute.find_one({"_id" : ObjectId(instituteId), "students" : {'$in' : [studentEmail]}})):
-            course = db.course.find_one({"courseCode" : courseCode, "instituteId": instituteId})
-            if(course):
+        # if(db.institute.find_one({"_id" : ObjectId(instituteId), "students" : {'$in' : [studentEmail]}})):
+        course = db.course.find_one({"courseCode" : courseCode, "instituteId": instituteId})
+        if(course):
                 db.course.update_one({"_id" : course["_id"]}, {'$addToSet' : {"students" : ObjectId(studentID)}})
                 db.student.update_one({"_id" : ObjectId(studentID)}, {'$addToSet' : {"courses" : course["_id"]}})
         
