@@ -36,24 +36,24 @@ export default function signup() {
         // Router.push('/login')
     }
 
-    var count=5;
+    // var count=5;
 
-    var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
+    // var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
 
-        function timer()
-        {
-            count=count-1;
-            if (count <= 0)
-            {
-                clearInterval(counter);
-                //counter ended, do something here
-                Router.push('/institute/login')
-                return;
-            }
-        }
-        useEffect(() => {
-            document.getElementById("timer").innerHTML = count + " secs";
-        },[])
+    //     function timer()
+    //     {
+    //         count=count-1;
+    //         if (count <= 0)
+    //         {
+    //             clearInterval(counter);
+    //             //counter ended, do something here
+    //             Router.push('/institute/login')
+    //             return;
+    //         }
+    //     }
+    //     useEffect(() => {
+    //         document.getElementById("timer").innerHTML = count + " secs";
+    //     },[])
         
     return (
         <div>
