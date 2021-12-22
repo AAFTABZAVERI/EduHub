@@ -1,7 +1,7 @@
 import style from '../../styles/Home.module.css';
 import styles from '../../styles/dashboard.module.css';
 
-function FacultyDashboardComponent(props) {
+function StudentDashboardComponent(props) {
     return (
       <div className={styles.gridItem}>
           <div className={styles.class}>
@@ -21,4 +21,4 @@ function FacultyDashboardComponent(props) {
     )
   }
   
-  export default FacultyDashboardComponent
+  export default StudentDashboardComponent
