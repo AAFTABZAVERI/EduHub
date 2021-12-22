@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import style from '../styles/Home.module.css';
 import styles from '../styles/dashboard.module.css';
 import NavBar from '../components/navbar';
-import StudentDashboardComponent from './studentComponents/StudentDashboardComponent';
+import FacultyDashboardComponent from './facultyComponents/FacultyDashboardComponent';
 import axios from 'axios';
 // import Popup from '../components/modalpopup';
 
@@ -57,7 +57,7 @@ export default function Dashboard() {
       <NavBar />
       <div className={styles.gridContainer}>
         {professorCourse ? professorCourse.map((course) => 
-        <StudentDashboardComponent name={course.name} faculty={course.faculty} id={course.Id} description={course.description}/> ) 
+        <FacultyDashboardComponent name={course.name} faculty={course.faculty} id={course.Id} description={course.description}/> ) 
         : 
         <div> No course Available </div>}
       </div>
