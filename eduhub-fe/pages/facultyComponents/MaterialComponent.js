@@ -1,7 +1,7 @@
 import styles from '../../styles/course.module.css';
 import mcStyle from './MaterialComponent.module.css'
 import axios from 'axios';
-import { Router } from 'next/router';
+import Router  from 'next/router';
 
 function MaterialComponent(props) {
 
@@ -18,7 +18,8 @@ function MaterialComponent(props) {
     function deleteMaterial(Id){
         axios.delete('http://127.0.0.1:5000/faculty-material/'+sessionStorage.getItem("instituteId"),{
             data: {
-                "materialId":Id
+                "materialId":Id,
+                "courseId": sessionStorage.getItem("courseId")
             }
         }
         )
