@@ -76,8 +76,13 @@
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
+  width: 40%; /* Could be more or less, depending on screen size */
   border-radius: 25px;
+}
+.modal_title{
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
 }
 
 /* The Close Button */
@@ -96,26 +101,31 @@
 }
 
 .btnAdd{
-  background-color: rgb(243, 76, 76);
-  border-radius: 20px;
-  width: 3.2%;
+  background-color: #ff5869;
+  border-radius: 40px;
+  width: 3%;
   margin-right: 2%;
   margin-bottom: 2%;
-  height: 7vh;
+  height: 5vh;
   font-size: x-large;
   right: 0;
   bottom: 0;
   position: absolute;
+  border: none;
+  color: #fefefe;
+  box-shadow: 8px 8px 10px rgb(0 0 0 / 0.2);
 }
 
 .btn {
   border: none;
   background-color: #ff5869;
   color: rgb(252, 252, 252);
-  padding: 1%;
+  padding: 2%;
   border-radius: 20px;
   margin: 1%;
   width: 20%;
+  margin-top: 5%;
+  margin-left: 40%;
 }
 .txt{
   padding: 0.5%;
@@ -124,6 +134,7 @@
   height: 5vh;
   width: 50%;
   outline: none;
+  margin-top: 2%;
 }
 .btnDelete:hover{
  cursor: pointer;

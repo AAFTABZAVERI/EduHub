@@ -75,6 +75,7 @@ export default function Dashboard() {
           <div className={styles.modalContent}>
           <span className={styles.close} onClick={addButtonClose}>&times;</span>
             <div>
+              <p className={styles.modal_title}>Add Course Code</p>
               <p style={{display:"inline-block", marginRight:"5px"}}>Course Code : </p>
               <input type="text" name='CoursCode' id='CourseCode' className={styles.txt}></input><br></br>
               {/* <p style={{display:"inline-block", marginRight:"5px"}}>Course Description : </p> */}
