@@ -17,7 +17,7 @@ function FacultyDashboardComponent(props) {
   }
 
   function deleteCourse(Id){
-     
+    
     Router.reload(window.location.pathname)
   }
 

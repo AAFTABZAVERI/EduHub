@@ -39,7 +39,7 @@ def studentCourseService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]), "name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]), "name":courses["name"], "faculty": courses["facultyName"], "description" : courses["description"], "courseCode": courses["courseCode"]})
         
         return jsonify(courseData)
 
@@ -58,7 +58,7 @@ def studentCourseService(id, request):
         courseCursor =  db.course.find({"_id" : {"$in" : studentObject["courses"]}})
         courseData = []
         for courses in courseCursor:
-            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "description" : courses["description"], "courseCode": courses["courseCode"]})
+            courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"], "description" : courses["description"], "courseCode": courses["courseCode"]})
         return jsonify(courseData)
 
     else:
