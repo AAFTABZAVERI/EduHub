@@ -77,36 +77,32 @@ def facultyAssignmentService(id,request):
     facultyId = id
     # courseId = request.json["courseId"]
     if request.method == "GET":
-
-        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        assignmentCursor = db.assignment.find({"courseId":request.args.get("courseId")})
         assigmetData = []
         for assignment in assignmentCursor:
-            # assigmetData.append({"descriprion":assignment["description"],"url":assignment["url"],"deadline" : assignment["deadline"],"fileName":assignment["fileName"]})
-            assigmetData.append({"description":assignment["description"]})
-        
+            assigmetData.append({"Id": str(assignment["_id"]),"title":assignment["title"], "description": assignment["description"], "url": assignment["url"], "fileName": assignment["fileName"], "date": assignment["date"]})
         return jsonify(assigmetData)
 
     elif request.method == "POST":
 
-        # facultyObject = db.faculty.find_one({"_id": ObjectId(facultyId)})
-        # courseId = request.json["courseId"]
-        assignmentDesc = request.json["description"]
-        # assignmentTitle = request.json["name"]
-        # serviceResponse = fileUploadService(request.files['file'])
-        # print(serviceResponse)
+        fileUploadData = fileUploadService(request.files['file'])
+        data = dict(request.form)
+ 
         insertedAssignment = db.assignment.insert({
-                # "fileName": serviceResponse["fileName"],
-                "description": assignmentDesc,
-                "courseId": request.json["courseId"],
-                # "url":serviceResponse["url"],
-                # "uuidFileNmae":serviceResponse["uuidFileName"],
-                "deadline" : request.json["deadline"]
-                })
-        db.course.update_one({"_id" : ObjectId(request.json["courseId"])}, {'$addToSet' : {"assignments" : insertedAssignment}})
-        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+                "title": data["assignmentName"],
+                "description": data["assignmentDescription"],
+                "date" : data["assignmentDate"],
+                "courseId": data["courseId"],
+                "fileName": fileUploadData["fileName"],
+                "url":fileUploadData["url"],
+                "uuidFileNmae":fileUploadData["uuidFileName"],
+        })
+
+        db.course.update_one({"_id" : ObjectId(data["courseId"])}, {'$addToSet' : {"assignments" : insertedAssignment}})
+        assignmentCursor = db.assignment.find({"courseId":data["courseId"]})
         assigmetData = []
         for assignment in assignmentCursor:
-            assigmetData.append(assignment["description"])
+            assigmetData.append({"Id": str(assignment["_id"]),"title":assignment["title"], "description": assignment["description"], "url": assignment["url"], "fileName": assignment["fileName"], "date": assignment["date"]})
         return jsonify(assigmetData)
 
     elif request.method == "DELETE":

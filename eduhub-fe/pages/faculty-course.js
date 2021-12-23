@@ -3,11 +3,13 @@ import React from 'react';
 import { useEffect, useRef, useState } from "react";
 import NavBar from '../components/navbar';
 import styles from '../styles/course.module.css';
+import FacultyAssignmentComponent from './facultyComponents/FacultyAssignmentComponent';
 import FacultyMaterialComponent from './facultyComponents/FacultyMaterialComponent';
 
 export default function course() {
 
     const [materialData, setmaterialData] = useState(0)
+    const [assignmentData, setassignmentData] = useState(0)
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/faculty-material/'+sessionStorage.getItem("Id"),{
@@ -22,7 +24,20 @@ export default function course() {
         .catch(function (error) {
           console.log(error);
         });
-        
+
+        axios.get('http://127.0.0.1:5000/faculty-assignment/'+sessionStorage.getItem("Id"),{
+            params:{
+                "courseId" : sessionStorage.getItem("courseId")
+            }
+        })
+        .then(function (response) {
+            setassignmentData(response.data)
+            console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    
     }, [])
 
     function modelOpen(type){
@@ -73,6 +88,34 @@ export default function course() {
           console.log(error);
         });
     }
+
+    function addAssignment(){
+        var assignmentName = document.getElementById("AssignmentName").value;
+        var assignmentDescription = document.getElementById("AssignmentDescription").value;
+        var assignmentData = document.getElementById("AssignmentDate").value;
+        console.log(assignmentData)
+        var formData = new FormData();
+        var file = document.getElementById("AssignmentFile");
+        formData.append("file", file.files[0]);
+        formData.append("assignmentName", assignmentName)
+        formData.append("assignmentDate", assignmentData)
+        formData.append("assignmentDescription", assignmentDescription)
+        formData.append("courseId", sessionStorage.getItem("courseId"))
+
+        axios.post('http://127.0.0.1:5000/faculty-assignment/'+sessionStorage.getItem("Id"), formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+        }})
+        .then(function (response) {
+            setassignmentData(response.data)
+            console.log(response.data)
+            let assignmentModal = document.getElementById("assignmentModal")
+            assignmentModal.style.display = "none"
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
    
     return (
         <div>
@@ -101,8 +144,9 @@ export default function course() {
                 <div className={styles.right}>
                     <div className={styles.card1}> 
                         <h3>Assignments </h3>
-                        <p>Assignment 1</p>
-                        <p>Assignment 2</p>
+                        {assignmentData && assignmentData.map((assignment) => (
+                            <FacultyAssignmentComponent Id={assignment.Id} title={assignment.title} description={assignment.description} fileName={assignment.fileName} url={assignment.url}></FacultyAssignmentComponent>
+                        ))}
                         <button  onClick={() => modelOpen("assignment")}>+</button>
                     </div>
 
@@ -134,7 +178,15 @@ export default function course() {
                 <div class={styles.modalContent}>
                     <span class={styles.close} onClick={modelClose}>&times;</span>
                     <h2>Add Assignment</h2>
-                    <p>Some text in the Modal..</p>
+                    <p style={{display:"inline-block", marginRight:"5px"}}>Assignment Name : </p>
+                    <input type="text" name='AssignmentName' id='AssignmentName'></input><br></br>
+                    <p style={{display:"inline-block", marginRight:"5px"}}>Assignment Description : </p>
+                    <input type="text" name='AssignmentDescription' id='AssignmentDescription'></input><br></br>
+                    <p style={{display:"inline-block", marginRight:"5px"}}>Assignment File : </p>
+                    <input type="file" id="AssignmentFile"></input><br></br>
+                    <p style={{display:"inline-block", marginRight:"5px"}}>Submission Deadline : </p>
+                    <input type="datetime-local" id='AssignmentDate'></input><br></br>
+                    <button onClick={addAssignment}>Add Assignment</button>
                 </div>
             </div>
             <div id="quizModal" className={styles.modal}>

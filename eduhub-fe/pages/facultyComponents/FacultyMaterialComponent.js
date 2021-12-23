@@ -37,9 +37,9 @@ function MaterialComponent(props) {
         <div>
             <p className={styles.p} onClick={() => openMaterialModal(props.Id)}> {props.title}</p>
 
-            <div id={props.Id+"-myModal"} class={fmcStyle.modal}>
-                <div class={fmcStyle.modalContent}>
-                    <span class={fmcStyle.close} onClick={() => closeMaterialModal(props.Id)}>&times;</span>
+            <div id={props.Id+"-myModal"} className={fmcStyle.modal}>
+                <div className={fmcStyle.modalContent}>
+                    <span className={fmcStyle.close} onClick={() => closeMaterialModal(props.Id)}>&times;</span>
                     <h3>{props.title}</h3>
                     <p>{props.description}</p>
                     <hr></hr>
