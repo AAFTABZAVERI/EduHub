@@ -2,9 +2,7 @@ import React from 'react'
 import styles from "./header.module.css"
 import axios from "axios"
 import GoogleLogin from 'react-google-login';
-
-
-
+import Router from 'next/router'
 
 export default function Header() {
   const responseGoogle = (response) => {
@@ -77,7 +75,7 @@ export default function Header() {
       </div>
 
       {/*---slider----*/}
-      <div id ="home">
+      <div id="home">
 
         <img src="./Pic1.svg" className={styles.pic1} />
       </div>
@@ -88,27 +86,27 @@ export default function Header() {
 
 
       {/*---slider----*/}
-      <div id ="aboutus">
-      <div className={styles.container}>
-        <div className={styles.featuretitle}>
-          <p className={styles.aboutus}>About Us</p>
-        </div>
-        <img src="./pic2.svg" className={styles.aboutimg} />
-        <div class={styles.blogslider}>
-          <h2>Save time and simplify everyday tasks</h2>
-          <p className={styles.bullet}>
-            <ul class={styles.ula}>
-              <li>Switch from class to assignment to student in just a few clicks</li>
-              <li>Track student progress in assignment and export scores to your school’s student information system (SIS)</li>
-              <li>Facluty and student connect with each other in essay way</li>
-              <li>Faculty can management class of student in easy way </li>
-              <li>Student can view  study material, assignments, and quizzes across multiple classes</li>
-            </ul>
+      <div id="aboutus">
+        <div className={styles.container}>
+          <div className={styles.featuretitle}>
+            <p className={styles.aboutus}>About Us</p>
+          </div>
+          <img src="./pic2.svg" className={styles.aboutimg} />
+          <div class={styles.blogslider}>
+            <h2>Save time and simplify everyday tasks</h2>
+            <p className={styles.bullet}>
+              <ul class={styles.ula}>
+                <li>Switch from class to assignment to student in just a few clicks</li>
+                <li>Track student progress in assignment and export scores to your school’s student information system (SIS)</li>
+                <li>Facluty and student connect with each other in essay way</li>
+                <li>Faculty can management class of student in easy way </li>
+                <li>Student can view  study material, assignments, and quizzes across multiple classes</li>
+              </ul>
 
-          </p>
+            </p>
 
+          </div>
         </div>
-      </div>
       </div>
       <br />
       <br />
@@ -118,47 +116,47 @@ export default function Header() {
       <p className={styles.bullet}><center><i><b>”</b>Of all the technology solutions I have used within <br /> education, EduHub has had the most <br />dramatic impact on teaching and learning from<br /> the very moment I used it in my schools.<b>”</b></i></center></p>
 
 
-     
-    
-     {/*---Feature----*/}
-      <div id = "feature">
-      <div className={styles.featuretitle}>
+
+
+      {/*---Feature----*/}
+      <div id="feature">
+        <div className={styles.featuretitle}>
           About Feature
         </div>
         <div className={styles.container1}>
           <div className={styles.card}>
-             <div className={styles.cardimage}><img src="./feature1.svg" className={styles.featureimg} /></div>
-             <center><h2 className={styles.cardh2}>Easy to use
-</h2></center> 
-             <p className={styles.cardp}>Anyone in your school community can get up and running with Classroom in minutes.
+            <div className={styles.cardimage}><img src="./feature1.svg" className={styles.featureimg} /></div>
+            <center><h2 className={styles.cardh2}>Easy to use
+            </h2></center>
+            <p className={styles.cardp}>Anyone in your school community can get up and running with Classroom in minutes.
 
-</p>
-         </div>
-         <div className={styles.card}>
-             <div className={styles.cardimage}><img src="./feature2.svg" className={styles.featureimg} /></div>
-             <center><h2 className={styles.cardh2}>Built for collaboration</h2></center>
-             <p className={styles.cardp}>Work simultaneously in the same document with the whole class or connect face-to-face with Google Meet.</p>
-         </div>
-         <div className={styles.card}>
-             <div className={styles.cardimage}><img src="./feature3.svg" className={styles.featureimg} /></div>
-             <center><h2 className={styles.cardh2}>Access from anywhere</h2></center>
-             <p className={styles.cardp}>Empower teaching and learning from anywhere, on any device, and give your class more flexibility.</p>
-         </div>
-         <div className={styles.card}>
-             <div className={styles.cardimage}> <img src="./feature4.svg" className={styles.featureimg1} /></div>
-             <center><h2 className={styles.cardh2}>All-in-one place</h2></center>
-             <p className={styles.cardp}>Bring all your learning tools together and manage multiple classes in one central destination.</p>
-         </div>
-       
-         
-          
+            </p>
+          </div>
+          <div className={styles.card}>
+            <div className={styles.cardimage}><img src="./feature2.svg" className={styles.featureimg} /></div>
+            <center><h2 className={styles.cardh2}>Built for collaboration</h2></center>
+            <p className={styles.cardp}>Work simultaneously in the same document with the whole class or connect face-to-face with Google Meet.</p>
+          </div>
+          <div className={styles.card}>
+            <div className={styles.cardimage}><img src="./feature3.svg" className={styles.featureimg} /></div>
+            <center><h2 className={styles.cardh2}>Access from anywhere</h2></center>
+            <p className={styles.cardp}>Empower teaching and learning from anywhere, on any device, and give your class more flexibility.</p>
+          </div>
+          <div className={styles.card}>
+            <div className={styles.cardimage}> <img src="./feature4.svg" className={styles.featureimg1} /></div>
+            <center><h2 className={styles.cardh2}>All-in-one place</h2></center>
+            <p className={styles.cardp}>Bring all your learning tools together and manage multiple classes in one central destination.</p>
+          </div>
+
+
+
         </div>
-        
-        
-        
-             <img src="./EduHub.png" className={styles.eduhub} />
-           
-         
+
+
+
+        <img src="./EduHub.png" className={styles.eduhub} />
+
+
 
       </div>
 
@@ -176,23 +174,23 @@ export default function Header() {
             </div>
             <ul class={styles.socialicon}>
               <li class={styles.socialiconitem}><a class={styles.socialiconlink} href="https://www.facebook.com/">
-               <img src="./face.png" className={styles.imgf}></img>
+                <img src="./face.png" className={styles.imgf}></img>
               </a></li>
               <li class={styles.socialiconitem}><a class={styles.socialiconlink} href="https://www.instagram.com/">
-              <img src="./inst.png" className={styles.imgf}></img>
+                <img src="./inst.png" className={styles.imgf}></img>
               </a></li>
               <li class={styles.socialiconitem}><a class={styles.socialiconlink} href="https://www.linkedin.com/">
-              <img src="./link.png" className={styles.imgf}></img>
+                <img src="./link.png" className={styles.imgf}></img>
               </a></li>
               <li class={styles.socialiconitem}><a class={styles.socialiconlink} href="https://twitter.com/">
-              <img src="./twi.png" className={styles.imgf}></img>
+                <img src="./twi.png" className={styles.imgf}></img>
               </a></li>
             </ul>
             <ul class={styles.menu}>
               <li class={styles.menuitem}><a class={styles.menulink} href="#home">Home</a></li>
               <li class={styles.menuitem}><a class={styles.menulink} href="#aboutus">About</a></li>
               <li class={styles.menuitem}><a class={styles.menulink} href="#feature">Feature</a></li>
-              
+
               <li class={styles.menuitem}><a class={styles.menulink} href="#contactus">Contact</a></li>
 
             </ul>

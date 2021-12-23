@@ -8,7 +8,7 @@ import Header from '../components/header/Header';
 // const axios = require('axios');
 
 export default function Home() {
-  //const [session, loadingSession] = useSession();
+  // const [session, loadingSession] = useSession();
   // const responseGoogle = (response) => {
   //   console.log(response);
   //   sessionStorage.setItem("email", response.profileObj.email);
@@ -18,39 +18,39 @@ export default function Home() {
   //   sessionStorage.setItem("tokenID", response.tokenId);
   //   sessionStorage.setItem("accessToken", response.accessToken);
 
-    // axios.post('http://127.0.0.1:5000/tokenApi', {
-    //   tokenId: response.tokenId,
-    // },)
-    // .then(function (response) {
-    //   console.log(response);
-    //   Router.push('/dashboard')
-    // })
-    // .catch(function (error) {
-    //   console.log(error);
-    // });
+  //   // axios.post('http://127.0.0.1:5000/tokenApi', {
+  //   //   tokenId: response.tokenId,
+  //   // },)
+  //   // .then(function (response) {
+  //   //   console.log(response);
+  //   //   Router.push('/dashboard')
+  //   // })
+  //   // .catch(function (error) {
+  //   //   console.log(error);
+  //   // });
 
-    axios.get('http://127.0.0.1:5000/tokenApi', {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("tokenID")}`
-      }
-    })
-    .then(function (response) {
-      sessionStorage.setItem("Id", response.data[0].Id)
-      sessionStorage.setItem("instituteId", response.data[0].instituteId)
-      sessionStorage.setItem("user", response.data[0].user)
-      if(response.data[0].user == "faculty"){
-        Router.push('/faculty-dashboard')
-      }
-      else if (response.data[0].user == "student") {
-        Router.push('/dashboard')
-      } else {
-        alert("No user found in any institute with provided email")
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  //   axios.get('http://127.0.0.1:5000/tokenApi', {
+  //     headers: {
+  //       Authorization: `Bearer ${sessionStorage.getItem("tokenID")}`
+  //     }
+  //   })
+  //   .then(function (response) {
+  //     sessionStorage.setItem("Id", response.data[0].Id)
+  //     sessionStorage.setItem("instituteId", response.data[0].instituteId)
+  //     sessionStorage.setItem("user", response.data[0].user)
+  //     if(response.data[0].user == "faculty"){
+  //       Router.push('/faculty-dashboard')
+  //     }
+  //     else if (response.data[0].user == "student") {
+  //       Router.push('/dashboard')
+  //     } else {
+  //       alert("No user found in any institute with provided email")
+  //     }
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
   
 
   return (
