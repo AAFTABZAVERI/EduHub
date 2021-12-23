@@ -8,6 +8,7 @@ import FacultyMaterialComponent from './facultyComponents/FacultyMaterialCompone
 export default function course() {
 
     const [materialData, setmaterialData] = useState(0)
+    const [quizData, setQuizdata] = useState(0)
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/faculty-material/'+sessionStorage.getItem("Id"),{
@@ -17,6 +18,19 @@ export default function course() {
         })
         .then(function (response) {
             setmaterialData(response.data)
+            console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        axios.get('http://127.0.0.1:5000/faculty-quiz/'+sessionStorage.getItem("Id"),{
+            params:{
+                "courseId" : sessionStorage.getItem("courseId")
+            }
+        })
+        .then(function (response) {
+            setQuizdata(response.data)
             console.log(response.data)
         })
         .catch(function (error) {
@@ -73,7 +87,34 @@ export default function course() {
           console.log(error);
         });
     }
-   
+    
+
+    function addQuiz(){
+        var title = document.getElementById("Title").value;
+        var link = document.getElementById("Link").value;
+        
+        axios.post('http://127.0.0.1:5000/faculty-quiz/'+sessionStorage.getItem("Id"),  {
+           "link":link,
+           "title":title,
+           "courseId":sessionStorage.getItem("courseId")
+        })
+        .then(function(responce){
+            setQuizdata(responce.data)
+            console.log(responce.data)
+            let quizModal = document.getElementById("quizModal")
+            quizModal.style.display="none"
+        })
+        .catch(function (error) {
+            console.log(error);
+          });
+
+    }
+
+    function redirecturl(url){    
+        let newurl = "https://"+ url
+        window.open(newurl)
+    }
+
     return (
         <div>
             <NavBar />
@@ -90,7 +131,8 @@ export default function course() {
                         <h2> Course Materials</h2>
                         {materialData ? materialData.map((material) => ( 
                             <FacultyMaterialComponent Id={material.Id} title={material.title} description={material.description} fileName={material.fileName} url={material.url}></FacultyMaterialComponent>
-                        )): <div>Fettching data..</div>}
+                        )): 
+                        <div>Fettching data..</div>}
                         <button className={styles.add} onClick={() => modelOpen("material")}>+ Add Topic</button>
                         
                         <hr />
@@ -109,8 +151,10 @@ export default function course() {
 {/* This is the Quiz fetching area */}
                     <div className={styles.card2}> 
                         <h3>Quizzes </h3>
-                        <p>Quiz 1</p>
-                        <p>Quiz 2</p>
+                        {quizData ? quizData.map((quiz) => ( 
+                            <p  onClick={()=>redirecturl(quiz.link)} >{quiz.title}</p>
+                        )): 
+                        <div>Fettching data..</div>}
                         <button  onClick={() => modelOpen("quiz")}>+</button>
                     </div>
                 </div>
@@ -135,13 +179,19 @@ export default function course() {
                     <span class={styles.close} onClick={modelClose}>&times;</span>
                     <h2>Add Assignment</h2>
                     <p>Some text in the Modal..</p>
+                    
                 </div>
             </div>
             <div id="quizModal" className={styles.modal}>
                 <div class={styles.modalContent}>
                     <span class={styles.close} onClick={modelClose}>&times;</span>
-                    <h2>Add Quiz</h2>
-                    <p>Some text in the Modal..</p>
+                    {/* <h2>Add Quiz</h2>
+                    <p>Some text in the Modal..</p> */}
+                    <p style={{display:"inline-block", marginRight:"5px"}}>Quiz Title : </p>
+                    <input type="text" name="Title" id="Title"></input><br></br>
+                    <p style={{display:"inline-block", marginRight:"5px"}}>Form Link : </p>
+                    <input type = "text" name="Link" id="Link"></input><br></br>
+                    <button onClick={addQuiz}>Add Quiz</button>
                 </div>
             </div>
             

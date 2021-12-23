@@ -8,6 +8,7 @@ import StudentMaterialComponent from './studentComponents/StudentMaterialCompone
 export default function course() {
 
     const [materialData, setmaterialData] = useState(0)
+    const [quizData,setQuizdata] = useState(0)
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/student-material/'+sessionStorage.getItem("Id"),{
@@ -22,9 +23,28 @@ export default function course() {
         .catch(function (error) {
           console.log(error);
         });
+
+
+        axios.get('http://127.0.0.1:5000/student-quiz/'+sessionStorage.getItem("Id"),{
+            params:{
+                "courseId" : sessionStorage.getItem("courseId")
+            }
+        })
+        .then(function (response) {
+            setQuizdata(response.data)
+            console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
         
     }, [])
    
+    function redirecturl(url){    
+        let newurl = "https://"+ url
+        window.open(newurl)
+    }
+
     return (
         <div>
             <NavBar />
@@ -56,9 +76,11 @@ export default function course() {
 
 {/* This is the Quiz fetching area */}
                     <div className={styles.card2}> 
-                        <h3>Quizzes </h3>
-                        <p>Quiz 1</p>
-                        <p>Quiz 2</p>
+                    <h3>Quizzes </h3>
+                        {quizData ? quizData.map((quiz) => ( 
+                            <p  onClick={()=>redirecturl(quiz.link)} >{quiz.title}</p>
+                        )): 
+                        <div>Fettching data..</div>}
                     </div>
                 </div>
             </div>
