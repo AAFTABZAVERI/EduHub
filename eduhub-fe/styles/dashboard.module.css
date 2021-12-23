@@ -98,6 +98,9 @@
 .btnAdd{
   background-color: rgb(243, 76, 76);
   border-radius: 20px;
+  border:none;
+  box-shadow: 8px 8px 10px rgb(0 0 0 / 0.2);
+  color: white;
   width: 3.2%;
   margin-right: 2%;
   margin-bottom: 2%;
@@ -108,6 +111,9 @@
   position: absolute;
 }
 
+.btnAdd:hover {
+cursor: pointer;
+}
 .btn {
   border: none;
   background-color: #ff5869;
