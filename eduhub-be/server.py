@@ -79,7 +79,6 @@ def facultyClassroom(id):
 @app.route('/file-upload', methods=["GET", "POST", "DELETE"])
 def fileUpload():
     serviceResponse = fileUploadService(request.files['file'])
-    print(serviceResponse)
     return "uploaded"
  
 @app.route('/faculty-assignment/<id>', methods=["GET", "POST", "DELETE"])
@@ -113,6 +112,11 @@ def studentClasses(id):
 @app.route('/student-assignment/<id>', methods=["GET", "POST","DELETE"])
 def studentAssignment(id):
     serviceResponse = studentAssignmentService(id,request)
+    return serviceResponse
+
+@app.route('/student-assignment-status/<id>', methods=["GET", "POST","DELETE"])
+def studentAssignmentStatus(id):
+    serviceResponse = studentAssignmentStatusService(id,request)
     return serviceResponse
 
 @app.route('/student-quiz/<id>', methods=["GET", "POST","DELETE"])

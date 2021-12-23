@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import jsonify, request, abort
+from flask import json, jsonify, request, abort
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -10,6 +10,7 @@ from time import sleep
 from datetime import datetime
 from bson.objectid import ObjectId
 from dataObjects.studentDataObject import *
+from services.fileUploadService import *
 
 
 def studentCourseService(id, request):
@@ -67,47 +68,41 @@ def studentCourseService(id, request):
 def  studentAssignmentService(id,request):
     studentId = id
     if request.method == "GET":
-        assignmentCursor = db.assignment.find({"courseId":request.json["courseId"]})
+        assignmentCursor = db.assignment.find({"courseId":request.args.get("courseId")})
         assigmetData = []
         for assignment in assignmentCursor:
-            assigmetData.append(assignment["description"])
+            assigmetData.append({"Id": str(assignment["_id"]),"title":assignment["title"], "description": assignment["description"], "url": assignment["url"], "fileName": assignment["fileName"], "date": assignment["date"]})
         return jsonify(assigmetData)
 
     elif request.method == "POST":
-        deadline = request.json["deadline"]
-        date_time_obj = datetime. strptime(deadline, '%d/%m/%y %H:%M:%S')
-        now = datetime.now()
-        print(now)
-        if now > date_time_obj:
-            # print("NOOOO")
-            flag = True
-            # late submission
-            #
-            # 
-        else:
-            flag  = False
-            # in time submission 
-            # 
-            # 
-            # print("yesss")
+        data = dict(request.form)
+        # deadline = request.json["deadline"]
+        # date_time_obj = datetime.strptime(deadline, '%d/%m/%y %H:%M:%S')
+        # now = datetime.now()
+        # print(now)
+        # if now > date_time_obj:
+        #     flag = True
+        # else:
+        #     flag  = False
+
+        fileUploadData = fileUploadService(request.files['file'])
+        courseId = data["courseId"]
+        assignmentDescription = data["assignmentDescription"]
+        assignmentId = data["assignmentId"]
         
-
-
-        # facultyObject = db.faculty.find_one({"_id": ObjectId(assignmentId)})
-        # courseId = request.json["courseId"]
-        # assignmentTitle = request.json["name"]
-        # serviceResponse = fileUploadService(request.files['file'])
-        # print(serviceResponse)
-        submitdetail = db.submission.insert_one({
-                # "fileName": serviceResponse["fileName"],
-                "assignmentId":request.json["assignmentId"],
-                "studentId":ObjectId(id),
-                "title":request.json["title"],
-                "late":flag,
-                # "url":serviceResponse["url"],
-                # "uuidFileNmae":serviceResponse["uuidFileName"],
-                "submissionTime":now
+        submitAssignment = db.submission.insert({
+                "fileName": fileUploadData["fileName"],
+                "Description" : assignmentDescription,
+                "assignmentId":assignmentId,
+                "studentId":studentId,
+                "courseId": courseId,
+                "late":"",
+                "url":fileUploadData["url"],
+                "uuidFileNmae":fileUploadData["uuidFileName"],
+                "submissionTime":datetime.now()
                 })
+        print(submitAssignment)
+        return f"sucess"
 
     #     materialCursor = db.assignment.find({"courseId":request.json["courseId"]})
     #     materialData = []
@@ -116,6 +111,21 @@ def  studentAssignmentService(id,request):
     #     return jsonify(materialData)
     # else:
     #     abort(400)
+
+def studentAssignmentStatusService(id, request):
+    if request.method == "GET":
+        studentId = id
+        courseId = request.args.get("courseId")
+        assignmentId = request.args.get("assignmentId")
+        assignmentStatus = db.submission.find_one({"assignmentId": assignmentId, "studentId": studentId})
+        assignmentData = []
+        if assignmentStatus:
+            assignmentData.append({"fileName": assignmentStatus["fileName"], "url": assignmentStatus["url"]})
+            return jsonify(assignmentData)
+        else:
+            return f"No assignment"
+
+
 
 def  studentQuizService(id,request):
     if request.method == "GET":

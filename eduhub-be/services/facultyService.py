@@ -56,7 +56,6 @@ def facultyClassroomService(id, request):
         for courses in courseCursor:
             courseData.append({"courseId" : str(courses["_id"]),"name":courses["name"], "faculty": courses["facultyName"],"description" : courses["description"], "courseCode": courses["courseCode"]})
         
-        print(courseData)
         return jsonify(courseData)
 
     elif request.method == "DELETE":
