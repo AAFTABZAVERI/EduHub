@@ -33,9 +33,10 @@ function FacultyDashboardComponent(props) {
     // Router.reload(window.location.pathname)
   }
 
-  function openCourse(courseId){
-    console.log(courseId)
-    sessionStorage.setItem("courseId", courseId)
+  function openCourse(props){
+    sessionStorage.setItem("courseId", props.Id)
+    sessionStorage.setItem("courseName", props.name)
+    sessionStorage.setItem("courseDesc", props.description)
     Router.push('/faculty-course')
   }
 
@@ -43,7 +44,7 @@ function FacultyDashboardComponent(props) {
       <div className={styles.gridItem}>
           <div className={styles.class}>
             <img className={styles.subjectImg} src="/subject1.jpg" />
-            <div className={styles.other} onClick={() => openCourse(props.Id)}>
+            <div className={styles.other} onClick={() => openCourse(props)}>
               <p className={styles.title}> {props.name} </p>
               <p className={styles.prof}> {props.faculty} </p>
               <div className={styles.desc}>
