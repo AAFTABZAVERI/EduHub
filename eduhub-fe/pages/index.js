@@ -29,6 +29,7 @@ export default function Home() {
     //   console.log(error);
     // });
 
+<<<<<<< HEAD
   //   axios.get('http://127.0.0.1:5000/tokenApi', {
   //     headers: {
   //       Authorization: `Bearer ${sessionStorage.getItem("tokenID")}`
@@ -42,6 +43,30 @@ export default function Home() {
   //     console.log(error);
   //   });
   // }
+=======
+    axios.get('http://127.0.0.1:5000/tokenApi', {
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("tokenID")}`
+      }
+    })
+    .then(function (response) {
+      sessionStorage.setItem("Id", response.data[0].Id)
+      sessionStorage.setItem("instituteId", response.data[0].instituteId)
+      sessionStorage.setItem("user", response.data[0].user)
+      if(response.data[0].user == "faculty"){
+        Router.push('/faculty-dashboard')
+      }
+      else if (response.data[0].user == "student") {
+        Router.push('/dashboard')
+      } else {
+        alert("No user found in any institute with provided email")
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
+>>>>>>> f54c5a27b788a07c1c06daece8f794e8c4fcb3d6
   
 
   return (
