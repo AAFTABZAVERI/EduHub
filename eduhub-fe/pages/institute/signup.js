@@ -2,6 +2,7 @@ import axios from "axios"
 import Router from "next/router"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import styles from '../../styles/instituteSignUp.module.css';
 
 export default function signup() {
@@ -36,31 +37,38 @@ export default function signup() {
         // Router.push('/login')
     }
 
-    // var count=5;
-
+    
+    // if(count>0)
+    // {
+    //     timer();
+    // }
     // var counter=setInterval(timer, 1000); //1000 will  run it every 1 second
-
-    //     function timer()
-    //     {
-    //         count=count-1;
-    //         if (count <= 0)
-    //         {
-    //             clearInterval(counter);
-    //             //counter ended, do something here
-    //             Router.push('/institute/login')
-    //             return;
-    //         }
-    //     }
+    // if (remainingTime === 0) {
+    //     alert("hello");
+    //     // Router.push('/institute/login');
+    // }
+    function timer({ remainingTime })
+    {
+        
+        // alert("heleoo")
+        if(remainingTime === 0){
+            // clearInterval(counter);
+            //counter ended, do something here
+            Router.push('/institute/login');
+            return;
+        }
+            
+    }
     //     useEffect(() => {
     //         document.getElementById("timer").innerHTML = count + " secs";
     //     },[])
-        
+
     return (
         <div>
             {beforeSubmit ?
                 <div className={styles.container}>
                     <form>
-                        <h1 style={{"padding-bottom":"10%","padding-top":"4%"}}> Sign Up </h1>
+                        <h1 style={{ "padding-bottom": "10%", "padding-top": "4%" }}> Sign Up </h1>
                         <label className={styles.lbl}>Institute Name</label>
                         <input ref={name} type="text" id="name" name="name" className={styles.txtbox} /> <br /><br />
                         <label className={styles.lbl}>Description </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -68,15 +76,30 @@ export default function signup() {
                         <label className={styles.lbl}>Email Address</label> &nbsp;
                         <input ref={email} type="text" id="email" name="email" className={styles.txtbox} /> <br /><br />
                     </form> <br />
-                    
-                        <button onClick={instituteSignup} className={styles.btn}> Submit </button> <br /><br />
-                    
+
+                    <button onClick={instituteSignup} className={styles.btn}> Submit </button> <br /><br />
+
                 </div>
                 :
                 <div className={styles.text}>
-                <div className={styles.heading_div}><label className={styles.heading}>Your form is submitted</label></div>
-                <div className={styles.heading_div2}><label className={styles.heading2}>You will be Redirected to Login Page in </label></div>
-                <div className={styles.heading_div3} ><label id="timer" className={styles.heading3}> </label></div>
+                    <div className={styles.heading_div}><label className={styles.heading}>Your form is submitted</label></div>
+                    <div className={styles.heading_div2}><label className={styles.heading2}>You will be Redirected to Login Page in </label></div> <br /> <br />
+                    {/* <div className={styles.heading_div3} ><label id="timer" className={styles.heading3}> </label></div> */}
+                    <div className={styles.timer}>
+                    <CountdownCircleTimer
+                        isPlaying
+                        duration={4}
+                        colors={[
+                            ['#004777', 0.33],
+                            ['#F7B801', 0.33],
+                            ['#A30000', 0.33],
+                        ]}
+                    >
+                          {timer}
+                        {/* {({ remainingTime }) => remainingTime} */}
+                      
+                    </CountdownCircleTimer>
+                    </div>
                 </div>
             }
         </div>

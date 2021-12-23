@@ -61,7 +61,9 @@
   border-radius: 30px;
   font-weight: 600;
 }
-
+.btn:hover{
+  cursor: pointer;
+}
 .googlebtn {
   width: 2.5%;
   height: 42px;
@@ -123,4 +125,10 @@
 .heading_div3{
   text-align: center;
   font-size: 2rem;
+}
+.timer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* align-items: center; */
 }
