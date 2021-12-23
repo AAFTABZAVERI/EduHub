@@ -168,11 +168,11 @@ def facultyQuizService(id,request):
     # facultyId = id
     # courseId = request.json["courseId"]
     if request.method == "GET":
-    
-        quizCursor = db.quiz.find({"courseId":request.json["courseId"]})
+        courseId=request.args.get("courseId")
+        quizCursor = db.quiz.find({"courseId":courseId})
         quizData = []
         for quiz in quizCursor:
-            quizData.append({"title":quiz["title"],"link":quiz["link"]})
+             quizData.append({"title":quiz["title"],"link":quiz["link"]})
         return jsonify(quizData)
     
     elif request.method == "POST":
